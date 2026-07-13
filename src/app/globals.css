@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens ──────────────────────────────────────────────────
+   Single source of truth. Semantic tokens power components; brand
+   tokens carry identity. Dark mode overrides the same variables —
+   components never hardcode color values. */
+:root {
+  --background: 220 33% 98%;
+  --foreground: 226 42% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 226 42% 14%;
+  --muted: 220 25% 94%;
+  --muted-foreground: 226 15% 44%;
+  --border: 220 25% 90%;
+  --primary: 226 60% 14%;
+  --primary-foreground: 220 33% 98%;
+  --accent: 43 100% 62%;
+  --accent-foreground: 226 60% 14%;
+  --brand-navy: 222 60% 14%;
+  --brand-gold: 43 100% 62%;
+  --brand-signal: 358 76% 54%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 226 50% 7%;
+  --foreground: 220 33% 96%;
+  --card: 226 45% 10%;
+  --card-foreground: 220 33% 96%;
+  --muted: 226 35% 14%;
+  --muted-foreground: 222 15% 65%;
+  --border: 226 30% 18%;
+  --primary: 220 33% 96%;
+  --primary-foreground: 226 60% 10%;
+  --accent: 43 100% 62%;
+  --accent-foreground: 226 60% 10%;
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv11";
+  }
+  ::selection { @apply bg-accent text-accent-foreground; }
+}
