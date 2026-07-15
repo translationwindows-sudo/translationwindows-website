@@ -33,12 +33,12 @@ const LANGS = [
 /* ── reusable steps ── */
 const src = (): Step => ({
   id: "source", kind: "select", group: "Language",
-  lead: "Great — I'll help prepare your quotation.",
+  lead: "Oh, that's great — I can definitely help with that!",
   q: "What language is the original document in?", options: LANGS,
 });
 const tgt = (): Step => ({
   id: "target", kind: "select", group: "Language",
-  lead: "Perfect.",
+  lead: "Perfect, thank you.",
   q: "And which language do you need it translated into?", options: LANGS,
 });
 const deadline = (): Step => ({
@@ -47,12 +47,11 @@ const deadline = (): Step => ({
 });
 const upload = (): Step => ({
   id: "files", kind: "upload", group: "Documents",
-  lead: "Excellent — that's everything I need to know about the work.",
   q: "Please upload your documents so we can prepare an accurate quotation.",
 });
 const contactName = (): Step => ({
   id: "name", kind: "text", group: "Contact",
-  lead: "Almost done.", q: "Who should we address the quotation to?", placeholder: "Full name",
+  lead: "Just a couple more quick details and we're all set.", q: "Who should we address the quotation to?", placeholder: "Full name",
 });
 const contactEmail = (): Step => ({
   id: "email", kind: "text", group: "Contact",
@@ -64,7 +63,7 @@ const contactPhone = (): Step => ({
 });
 const review = (): Step => ({
   id: "review", kind: "review", group: "Review",
-  lead: "That's everything.", q: "Here's your project — ready to create?",
+  lead: "Perfect — that's everything I need.", q: "Here's your project — ready to create?",
 });
 
 /** Documents → contact → review tail, shared by every branch. */
@@ -81,7 +80,7 @@ export const FLOWS: Record<string, Step[]> = {
     deadline(), ...tail(),
   ],
   "USCIS / immigration": [
-    { id: "doctype", kind: "options", group: "Project", lead: "Happy to help with that.", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
+    { id: "doctype", kind: "options", group: "Project", lead: "Oh, that's great — I can definitely help with that!", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
     src(), tgt(),
     { id: "purpose", kind: "options", group: "Requirements", q: "Is this for:", options: ["USCIS", "Court", "University", "Personal use"] },
     { id: "cert", kind: "options", group: "Requirements", q: "Certified translation is included. Would you like notarization as well?", options: ["Certified only", "Certified + notarized"] },

@@ -49,6 +49,7 @@ export function StartComposer() {
 
   const [fabHidden, setFabHidden] = useState(true);
   const [live, setLive] = useState("");
+  const [moreFilesOpen, setMoreFilesOpen] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const activeRef = useRef<HTMLDivElement | null>(null);
@@ -78,7 +79,7 @@ export function StartComposer() {
     const el = activeRef.current;
     if (!el) return;
     const t = window.setTimeout(() => {
-      el.scrollIntoView({ behavior: reduced.current ? "auto" : "smooth", block: "center" });
+      el.scrollIntoView({ behavior: reduced.current ? "auto" : "smooth", block: "nearest" });
       firstFieldRef.current?.focus({ preventScroll: true });
       setLive(active ? `${active.lead ? `${active.lead} ` : ""}${active.q}` : "");
     }, 120);
@@ -279,6 +280,10 @@ export function StartComposer() {
 
   const qCountLabel = active?.kind === "review" ? "Final step" : `Step ${idx + 1} of ${steps.length}`;
 
+  /* the upload ask names the actual document the customer mentioned */
+  const docNoun = (answers.doctype || answers.type || "document").toLowerCase();
+  const uploadLeadText = `Oh, that's great! Do you have a copy or image of the ${docNoun}? That will help us understand exactly what you need and quote you accurately.`;
+
   return (
     <section id="start" ref={sectionRef}>
       <div className="sec" style={{ paddingTop: 84, paddingBottom: 84 }}>
@@ -310,8 +315,8 @@ export function StartComposer() {
 
               {idx === 0 && !ref && (
                 <div className="ansrow">
-                  <div className="av">🪟</div>
-                  <div className="content"><div className="bub"><strong>Hi.</strong> I&apos;m going to prepare your quotation — this takes about a minute. I&apos;ll ask you a few quick questions.</div></div>
+                  <div className="av">🧑‍💼</div>
+                  <div className="content"><div className="bub"><span className="qwho">Steve</span><strong>Hi, I&apos;m Steve.</strong> I&apos;m here to help with your project — this takes about a minute. I&apos;ll ask you a few quick questions.</div></div>
                 </div>
               )}
 
@@ -327,29 +332,48 @@ export function StartComposer() {
 
               {!submitted && filesUnlocked && (
                 <div className="qcard-a" ref={onUploadStep ? activeRef : undefined} style={{ marginBottom: 16 }}>
-                  {onUploadStep && (
+                  {onUploadStep ? (
                     <>
                       <div className="qcount">{qCountLabel}</div>
-                      <div className="qh"><span className="av">🪟</span><span>{active?.lead ? `${active.lead} ` : ""}{active?.q}</span></div>
-                    </>
-                  )}
-                  {!onUploadStep && <h4 style={{ fontSize: ".72rem", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--char-soft)", marginBottom: 12 }}>Your documents</h4>}
+                      <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Steve</span>{uploadLeadText}</span></div>
 
-                  {fileErr && <p className="qerr" role="alert" style={{ marginBottom: 10 }}>{fileErr}</p>}
-                  {FILE_BINS.map((b) => (
-                    <FileBin
-                      key={b.role}
-                      role={b.role} label={b.label} hint={b.hint} icon={b.icon}
-                      files={files.filter((f) => f.role === b.role)}
-                      onAdd={addFiles} onRemove={removeFile} onReplace={replaceFile}
-                      onError={setFileErr}
-                    />
-                  ))}
+                      {fileErr && <p className="qerr" role="alert" style={{ marginBottom: 10 }}>{fileErr}</p>}
+                      <FileBin
+                        role="document" label={FILE_BINS[0].label} hint={FILE_BINS[0].hint} icon={FILE_BINS[0].icon}
+                        files={files.filter((f) => f.role === "document")}
+                        onAdd={addFiles} onRemove={removeFile} onReplace={replaceFile}
+                        onError={setFileErr}
+                      />
 
-                  {onUploadStep && (
-                    <>
+                      <button type="button" className="linkbtn" onClick={() => setMoreFilesOpen((o) => !o)} style={{ marginBottom: moreFilesOpen ? 12 : 0 }}>
+                        {moreFilesOpen ? "Hide supporting files" : "+ Add supporting documents, glossary, or style guide (optional)"}
+                      </button>
+                      {moreFilesOpen && FILE_BINS.slice(1).map((b) => (
+                        <FileBin
+                          key={b.role}
+                          role={b.role} label={b.label} hint={b.hint} icon={b.icon}
+                          files={files.filter((f) => f.role === b.role)}
+                          onAdd={addFiles} onRemove={removeFile} onReplace={replaceFile}
+                          onError={setFileErr}
+                        />
+                      ))}
+
                       {docCount === 0 && <p className="qerr" role="alert">{stepErr || "Add at least one document to continue."}</p>}
                       <button type="button" className="qnext" disabled={docCount === 0} onClick={advancePastUpload}>Continue →</button>
+                    </>
+                  ) : (
+                    <>
+                      <h4 style={{ fontSize: ".72rem", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--char-soft)", marginBottom: 12 }}>Your documents</h4>
+                      {fileErr && <p className="qerr" role="alert" style={{ marginBottom: 10 }}>{fileErr}</p>}
+                      {FILE_BINS.map((b) => (
+                        <FileBin
+                          key={b.role}
+                          role={b.role} label={b.label} hint={b.hint} icon={b.icon}
+                          files={files.filter((f) => f.role === b.role)}
+                          onAdd={addFiles} onRemove={removeFile} onReplace={replaceFile}
+                          onError={setFileErr}
+                        />
+                      ))}
                     </>
                   )}
                 </div>
@@ -358,7 +382,7 @@ export function StartComposer() {
               {!submitted && active && active.kind !== "upload" && (
                 <div className="qcard-a" ref={activeRef}>
                   <div className="qcount">{qCountLabel}</div>
-                  <div className="qh"><span className="av">🪟</span><span>{active.lead ? `${active.lead} ` : ""}{active.q}</span></div>
+                  <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Steve</span>{active.lead ? `${active.lead} ` : ""}{active.q}</span></div>
 
                   {active.kind === "options" && (
                     <div className="opts" role="group" aria-label={active.q}>
@@ -403,7 +427,7 @@ export function StartComposer() {
                     </>
                   )}
 
-                  {stepErr && active.kind !== "upload" && active.kind !== "review" && <p className="qerr" role="alert">{stepErr}</p>}
+                  {stepErr && active.kind !== "review" && <p className="qerr" role="alert">{stepErr}</p>}
                 </div>
               )}
 

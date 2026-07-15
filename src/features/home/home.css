@@ -469,3 +469,7 @@
 .twh .livesum .qi-list li.on{opacity:1}
 .twh .livesum .qi-list li b{display:inline-block;width:14px;color:var(--char-soft)}
 .twh .livesum .qi-list li.on b{color:#1a9d54}
+
+/* ═══ Persona label + file-toggle polish ═══ */
+.twh .qwho{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.twh .qcard-a .linkbtn{display:block;background:none;border:0;color:var(--accent);font-weight:600;font-size:.82rem;cursor:pointer;padding:8px 0;text-decoration:underline}
