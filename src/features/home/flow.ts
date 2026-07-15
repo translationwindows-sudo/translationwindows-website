@@ -1,28 +1,27 @@
 /**
- * Guided-assistant flow definition.
- * A lightweight, declarative step machine: each project type maps to an
- * ordered list of steps. The component walks these one at a time, keeps
- * answers keyed by step id, and derives the visible history + active step
- * from that state. Backend wiring (CRM/email) plugs into onSubmit later.
+ * Guided intake — the interview script.
+ *
+ * The assistant drives: one question at a time, each answer unlocking the
+ * next. The upload step is placed deliberately AFTER we know what the
+ * project is, so we only ask for documents once we've earned the right to.
  */
 
-export type StepKind = "options" | "select" | "text" | "review";
+export type StepKind = "options" | "select" | "text" | "upload" | "review";
+
+export type StepGroup = "Project" | "Language" | "Requirements" | "Documents" | "Contact" | "Review";
 
 export interface Step {
   id: string;
   kind: StepKind;
-  /** assistant question text */
+  /** what the coordinator asks */
   q: string;
-  /** acknowledgement shown once answered (may use the answer via {v}) */
-  ack?: string;
-  /** for options/select */
+  /** short lead-in the coordinator says before the question */
+  lead?: string;
   options?: string[];
-  /** for text */
   placeholder?: string;
   inputType?: "text" | "email" | "tel" | "url";
   optional?: boolean;
-  /** progress bucket this step belongs to */
-  group: "Project" | "Language" | "Requirements" | "Contact" | "Review";
+  group: StepGroup;
 }
 
 const LANGS = [
@@ -31,90 +30,130 @@ const LANGS = [
   "Hindi", "Urdu", "Farsi", "Turkish", "Italian", "Other",
 ];
 
+/* ── reusable steps ── */
 const src = (): Step => ({
   id: "source", kind: "select", group: "Language",
-  q: "What language is it currently in?", options: LANGS,
-  ack: "From {v}.",
+  lead: "Great — I'll help prepare your quotation.",
+  q: "What language is the original document in?", options: LANGS,
 });
 const tgt = (): Step => ({
   id: "target", kind: "select", group: "Language",
-  q: "And which language do you need?", options: LANGS,
-  ack: "Into {v}.",
+  lead: "Perfect.",
+  q: "And which language do you need it translated into?", options: LANGS,
 });
 const deadline = (): Step => ({
   id: "deadline", kind: "options", group: "Requirements",
   q: "When do you need it?", options: ["As soon as possible", "Within a week", "Flexible"],
 });
-const contactName = (): Step => ({ id: "name", kind: "text", group: "Contact", q: "What should we call you?", placeholder: "Full name" });
-const contactEmail = (): Step => ({ id: "email", kind: "text", group: "Contact", q: "Your email address?", placeholder: "you@email.com", inputType: "email" });
-const contactPhone = (): Step => ({ id: "phone", kind: "text", group: "Contact", q: "A phone number? (optional)", placeholder: "Optional", inputType: "tel", optional: true });
-const review = (): Step => ({ id: "review", kind: "review", group: "Review", q: "Review your request." });
+const upload = (): Step => ({
+  id: "files", kind: "upload", group: "Documents",
+  lead: "Excellent — that's everything I need to know about the work.",
+  q: "Please upload your documents so we can prepare an accurate quotation.",
+});
+const contactName = (): Step => ({
+  id: "name", kind: "text", group: "Contact",
+  lead: "Almost done.", q: "Who should we address the quotation to?", placeholder: "Full name",
+});
+const contactEmail = (): Step => ({
+  id: "email", kind: "text", group: "Contact",
+  q: "What email should we send it to?", placeholder: "you@email.com", inputType: "email",
+});
+const contactPhone = (): Step => ({
+  id: "phone", kind: "text", group: "Contact",
+  q: "A phone number, in case we need to reach you quickly?", placeholder: "Optional", inputType: "tel", optional: true,
+});
+const review = (): Step => ({
+  id: "review", kind: "review", group: "Review",
+  lead: "That's everything.", q: "Here's your project — ready to create?",
+});
 
-/** Steps common to translation-type flows, after the type-specific ones. */
-function contactAndReview(): Step[] {
-  return [contactName(), contactEmail(), contactPhone(), review()];
+/** Documents → contact → review tail, shared by every branch. */
+function tail(): Step[] {
+  return [upload(), contactName(), contactEmail(), contactPhone(), review()];
 }
 
-/** Type-specific branches. Keyed by the project-type answer. */
 export const FLOWS: Record<string, Step[]> = {
   "Legal contract": [
     src(), tgt(),
-    { id: "cert", kind: "options", group: "Requirements", q: "Do you need certification for a court or legal filing?", options: ["Yes, certified", "No, for reference"] },
-    { id: "formatting", kind: "options", group: "Requirements", q: "Should we preserve the original formatting?", options: ["Yes, keep layout", "Plain text is fine"] },
-    deadline(), ...contactAndReview(),
+    { id: "purpose", kind: "options", group: "Requirements", q: "What is the translation for?", options: ["Court filing", "Business use", "Personal reference", "Other"] },
+    { id: "cert", kind: "options", group: "Requirements", q: "Will you need a certified translation?", options: ["Yes, certified", "No, for reference"] },
+    { id: "formatting", kind: "options", group: "Requirements", q: "Should we reproduce the original formatting?", options: ["Yes, keep layout", "Plain text is fine"] },
+    deadline(), ...tail(),
   ],
   "USCIS / immigration": [
-    { id: "doctype", kind: "options", group: "Project", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
+    { id: "doctype", kind: "options", group: "Project", lead: "Happy to help with that.", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
     src(), tgt(),
-    { id: "cert", kind: "options", group: "Requirements", q: "USCIS requires certified translation — included. Add notarization?", options: ["Certified only", "Certified + notarized"] },
+    { id: "purpose", kind: "options", group: "Requirements", q: "Is this for:", options: ["USCIS", "Court", "University", "Personal use"] },
+    { id: "cert", kind: "options", group: "Requirements", q: "Certified translation is included. Would you like notarization as well?", options: ["Certified only", "Certified + notarized"] },
     { id: "pages", kind: "options", group: "Requirements", q: "Roughly how many pages?", options: ["1 page", "2–5 pages", "6+ pages"] },
-    { id: "printed", kind: "options", group: "Requirements", q: "Do you need a printed hard copy mailed?", options: ["Digital is fine", "Mail a printed copy"] },
-    deadline(), ...contactAndReview(),
+    deadline(), ...tail(),
   ],
   "Medical document": [
     src(), tgt(),
+    { id: "purpose", kind: "options", group: "Requirements", q: "What is it for?", options: ["Hospital / clinic", "Insurance", "Legal case", "Personal use"] },
     { id: "cert", kind: "options", group: "Requirements", q: "Do you need a certified translation?", options: ["Yes, certified", "No"] },
-    deadline(), ...contactAndReview(),
+    deadline(), ...tail(),
   ],
   "Subtitles / video": [
     src(), tgt(),
-    { id: "length", kind: "text", group: "Project", q: "How long is the video? (minutes)", placeholder: "e.g. 12", inputType: "text" },
+    { id: "length", kind: "text", group: "Project", q: "How long is the video, in minutes?", placeholder: "e.g. 12" },
     { id: "transcript", kind: "options", group: "Project", q: "Do you already have a transcript?", options: ["Yes", "No"] },
-    { id: "format", kind: "options", group: "Requirements", q: "Preferred subtitle format?", options: ["SRT / VTT file", "Burned into video", "Not sure"] },
-    deadline(), ...contactAndReview(),
+    { id: "format", kind: "options", group: "Requirements", q: "Which subtitle format do you need?", options: ["SRT / VTT file", "Burned into video", "Not sure"] },
+    deadline(), ...tail(),
   ],
   "Website / software": [
-    { id: "url", kind: "text", group: "Project", q: "What's the website or app URL?", placeholder: "https://", inputType: "url", optional: true },
-    { id: "target", kind: "select", group: "Language", q: "Which language(s) do you need? (pick the main one)", options: LANGS, ack: "Into {v}." },
+    { id: "url", kind: "text", group: "Project", lead: "Good — let's scope it.", q: "What's the website or app address?", placeholder: "https://", inputType: "url", optional: true },
+    { id: "target", kind: "select", group: "Language", q: "Which language do you need it in? (pick the main one)", options: LANGS },
     { id: "pages", kind: "options", group: "Project", q: "Roughly how many pages or screens?", options: ["Under 10", "10–50", "50+", "Not sure"] },
-    { id: "seo", kind: "options", group: "Requirements", q: "Do you need SEO localization?", options: ["Yes", "No", "Not sure"] },
-    deadline(), ...contactAndReview(),
+    { id: "seo", kind: "options", group: "Requirements", q: "Should we localize your SEO as well?", options: ["Yes", "No", "Not sure"] },
+    deadline(), ...tail(),
   ],
   "Spanish interpreter": [
-    { id: "mode", kind: "options", group: "Project", q: "Remote or on-site?", options: ["Remote", "On-site"] },
+    { id: "mode", kind: "options", group: "Project", lead: "We provide Spanish interpreting.", q: "Remote or on-site?", options: ["Remote", "On-site"] },
     { id: "setting", kind: "options", group: "Project", q: "What's the setting?", options: ["Legal", "Medical", "Business", "Other"] },
-    deadline(), ...contactAndReview(),
+    deadline(), ...tail(),
   ],
   "Something else": [
-    src(), tgt(), deadline(), ...contactAndReview(),
+    src(), tgt(), deadline(), ...tail(),
   ],
 };
 
-/** First question is always the project type. */
+/** The interview always opens here. */
 export const TYPE_STEP: Step = {
   id: "type", kind: "options", group: "Project",
   q: "What are you translating?",
   options: Object.keys(FLOWS),
 };
 
-export const GROUP_ORDER: Step["group"][] = ["Project", "Language", "Requirements", "Contact", "Review"];
+export const GROUP_ORDER: StepGroup[] = ["Project", "Language", "Requirements", "Documents", "Contact", "Review"];
 
-/** Human labels for the review summary. */
 export const FIELD_LABELS: Record<string, string> = {
   type: "Project", doctype: "Document", source: "From", target: "To",
-  cert: "Certification", formatting: "Formatting", pages: "Pages",
-  printed: "Delivery", deadline: "Deadline", length: "Video length",
-  transcript: "Transcript", format: "Subtitle format", url: "URL",
-  seo: "SEO", mode: "Mode", setting: "Setting",
-  name: "Name", email: "Email", phone: "Phone",
+  purpose: "Purpose", cert: "Certification", formatting: "Formatting",
+  pages: "Size", printed: "Delivery", deadline: "Deadline",
+  length: "Video length", transcript: "Transcript", format: "Subtitle format",
+  url: "Website", seo: "SEO", mode: "Mode", setting: "Setting",
+  name: "Name", email: "Email", phone: "Phone", files: "Documents",
+};
+
+/** Customer-facing service name, derived from the project type. */
+export const SERVICE_LABEL: Record<string, string> = {
+  "Legal contract": "Legal Translation",
+  "USCIS / immigration": "Certified Translation",
+  "Medical document": "Medical Translation",
+  "Subtitles / video": "Subtitling",
+  "Website / software": "Localization",
+  "Spanish interpreter": "Spanish Interpretation",
+  "Something else": "Translation",
+};
+
+/** Rough turnaround shown live in the summary panel. */
+export const TURNAROUND: Record<string, string> = {
+  "Legal contract": "2–3 business days",
+  "USCIS / immigration": "1–2 business days",
+  "Medical document": "2–3 business days",
+  "Subtitles / video": "2–4 business days",
+  "Website / software": "Scoped per project",
+  "Spanish interpreter": "Confirmed on booking",
+  "Something else": "1–3 business days",
 };

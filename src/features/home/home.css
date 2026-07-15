@@ -460,3 +460,12 @@
 .twh .ph-soon{display:inline-block;font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--char-soft);border:1px solid var(--line);border-radius:100px;padding:2px 8px;margin-top:8px}
 @media (max-width:760px){.twh .placeholders{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:420px){.twh .placeholders{grid-template-columns:1fr 1fr}}
+
+/* ═══ Sequential-interview polish: confirmed chips + live sidebar ═══ */
+.twh .ansrow.confirmed .av{background:#E7F5EC;color:#1a9d54;border-color:#CDEBD8}
+.twh .ansrow.confirmed .bub{background:#F4FBF6;border-color:#CDEBD8;font-weight:500}
+.twh .ansrow.confirmed .bub b{color:var(--char-soft);font-weight:600;margin-right:4px}
+.twh .livesum .qi-list li{opacity:.55;transition:opacity .3s}
+.twh .livesum .qi-list li.on{opacity:1}
+.twh .livesum .qi-list li b{display:inline-block;width:14px;color:var(--char-soft)}
+.twh .livesum .qi-list li.on b{color:#1a9d54}
