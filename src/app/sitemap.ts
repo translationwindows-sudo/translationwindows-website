@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 
 const routes = [
   "",
+  "/platform",
   "/solutions",
   "/industries",
   "/languages",

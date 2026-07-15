@@ -27,11 +27,11 @@ export const siteConfig = {
 export type NavItem = { title: string; href: string; description?: string };
 
 export const mainNav: NavItem[] = [
+  { title: "Platform", href: "/platform" },
   { title: "Solutions", href: "/solutions" },
   { title: "Industries", href: "/industries" },
   { title: "Languages", href: "/languages" },
   { title: "Resources", href: "/resources" },
-  { title: "Blog", href: "/blog" },
   { title: "About", href: "/about" },
 ];
 
@@ -39,6 +39,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Platform",
     items: [
+      { title: "Platform overview", href: "/platform" },
       { title: "Solutions", href: "/solutions" },
       { title: "AI Quote Assistant", href: "/quote" },
       { title: "Languages", href: "/languages" },
