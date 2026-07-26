@@ -156,20 +156,20 @@ export function Industries() {
 /* ── S3 · Language universe ──────────────────────────────── */
 const LANGDATA: Record<string, { n: string; work: string }> = {
   Spanish: { n: "Español", work: "Immigration, legal, business" },
-  Chinese: { n: "中文", work: "Business, manufacturing, legal" },
-  Arabic: { n: "العربية", work: "Immigration, legal, government" },
   French: { n: "Français", work: "Legal, business, academic" },
-  Vietnamese: { n: "Tiếng Việt", work: "Immigration, personal, medical" },
+  German: { n: "Deutsch", work: "Engineering, business, legal" },
   Portuguese: { n: "Português", work: "Business, personal, academic" },
+  Italian: { n: "Italiano", work: "Business, legal, academic" },
+  Dutch: { n: "Nederlands", work: "Business, technical, legal" },
+  Polish: { n: "Polski", work: "Immigration, business, technical" },
   Russian: { n: "Русский", work: "Immigration, legal, technical" },
   Ukrainian: { n: "Українська", work: "Immigration, personal, legal" },
-  German: { n: "Deutsch", work: "Engineering, business, legal" },
-  Japanese: { n: "日本語", work: "Technical, gaming, business" },
-  Korean: { n: "한국어", work: "Business, media, personal" },
-  Hindi: { n: "हिन्दी", work: "Immigration, academic, personal" },
-  Farsi: { n: "فارسی", work: "Immigration, personal, legal" },
-  Turkish: { n: "Türkçe", work: "Business, legal, personal" },
-};
+  Swedish: { n: "Svenska", work: "Business, medical, technical" },
+  Norwegian: { n: "Norsk", work: "Business, energy, technical" },
+  Danish: { n: "Dansk", work: "Business, medical, technical" },
+  Chinese: { n: "中文", work: "Business, manufacturing, legal" },
+  Japanese: { n: "日本語", work: "Technical, business, gaming" },
+}
 const POS: [number, number][] = [[6,10],[38,6],[68,12],[86,28],[8,38],[30,30],[58,34],[80,52],[12,62],[36,58],[62,62],[84,76],[22,82],[50,84]];
 
 export function LanguageUniverse() {

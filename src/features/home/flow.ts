@@ -27,9 +27,10 @@ export interface Step {
 }
 
 const LANGS = [
-  "Spanish", "English", "Chinese", "Arabic", "French", "Portuguese",
-  "Vietnamese", "Russian", "Ukrainian", "German", "Japanese", "Korean",
-  "Hindi", "Urdu", "Farsi", "Turkish", "Italian", "Other",
+  "English", "Spanish", "German", "French", "Portuguese", "Italian", "Dutch",
+  "Polish", "Russian", "Ukrainian", "Swedish", "Norwegian", "Danish", "Finnish",
+  "Greek", "Czech", "Hungarian", "Romanian", "Croatian", "Serbian",
+  "Chinese", "Japanese", "Korean", "Vietnamese", "Turkish", "Arabic", "Other",
 ];
 
 /* ── reusable steps ── */
