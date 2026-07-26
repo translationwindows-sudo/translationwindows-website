@@ -208,7 +208,7 @@ export function StartComposer() {
     setStatus("submitted");
     setLive(`Project ${ref} created and sent for review.`);
     logActivity("Project submitted for review", "🚀");
-    window.setTimeout(() => { setStatus("reviewing"); logActivity("A project manager is reviewing your documents", "👀"); }, 1400);
+    window.setTimeout(() => { setStatus("reviewing"); logActivity("A Project Coordinator is reviewing your documents", "👀"); }, 1400);
   }, [canSubmit, ref, logActivity]);
 
   const openWhatsApp = useCallback(() => {
@@ -225,9 +225,9 @@ export function StartComposer() {
 
   const statusExplainer = useMemo(() => {
     switch (status) {
-      case "submitted": return "Great — your project has been created and is entering our review queue.";
-      case "reviewing": return "A project manager is reviewing your documents to prepare an accurate quotation — typically under 15 minutes during business hours.";
-      case "quote_ready": return "Your quotation is ready. Review it, or message your project manager to go ahead.";
+      case "submitted": return "Your project has been received successfully. Our Project Coordinator is now reviewing your documents.";
+      case "reviewing": return "Your Project Coordinator is reviewing your documents to prepare an accurate quotation. Most requests are reviewed within 30–60 minutes during business hours.";
+      case "quote_ready": return "Your quotation is ready. Review it, or message your Project Coordinator to go ahead.";
       default: return "Your project is open and saved.";
     }
   }, [status]);
@@ -245,8 +245,8 @@ export function StartComposer() {
     }
     switch (status) {
       case "quote_ready": return { icon: "✅", title: "Your quotation is ready", desc: "Review the details and approve to begin.", cta: "Review quotation", run: openWhatsApp };
-      case "reviewing": return { icon: "💬", title: "Anything to add?", desc: "Send a supporting file, a glossary, or a note while we review.", cta: "Message project manager", run: openWhatsApp };
-      default: return { icon: "💬", title: "We're on it", desc: "Your project manager will be in touch shortly. Add anything else you'd like us to see.", cta: "Message project manager", run: openWhatsApp };
+      case "reviewing": return { icon: "💬", title: "Anything to add?", desc: "Send a supporting file, a glossary, or a note while we review.", cta: "Message Project Coordinator", run: openWhatsApp };
+      default: return { icon: "💬", title: "We're on it", desc: "Your Project Coordinator will be in touch shortly. Add anything else you'd like us to see.", cta: "Message Project Coordinator", run: openWhatsApp };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [missing, status]);
@@ -276,20 +276,30 @@ export function StartComposer() {
     : !answers.type ? "Let's get started"
     : docCount === 0 ? "Awaiting your documents"
     : active?.kind === "review" ? "Ready for quotation"
-    : "Building your project";
+    : "Building your project overview";
 
   const qCountLabel = active?.kind === "review" ? "Final step" : `Step ${idx + 1} of ${steps.length}`;
 
+  /* "What happens next?" — always answered, at every stage of the journey */
+  const nextStepText = submitted
+    ? (status === "quote_ready"
+        ? "Review your quotation"
+        : "Your Project Coordinator is reviewing your documents")
+    : !answers.type ? "Tell us what you are translating"
+    : active?.kind === "upload" ? "Upload your documents"
+    : active?.kind === "review" ? "Create your project"
+    : "Answer a few more quick questions";
+
   /* the upload ask names the actual document the customer mentioned */
   const docNoun = (answers.doctype || answers.type || "document").toLowerCase();
-  const uploadLeadText = `Oh, that's great! Do you have a copy or image of the ${docNoun}? That will help us understand exactly what you need and quote you accurately.`;
+  const uploadLeadText = `Please upload your ${docNoun} whenever you are ready.`;
 
   return (
     <section id="start" ref={sectionRef}>
       <div className="sec" style={{ paddingTop: 84, paddingBottom: 84 }}>
         <Reveal as="p" className="k">For people who already know</Reveal>
         <Reveal delay={1}><h2>{ref ? "Your project workspace" : "Start your project in under 60 seconds."}</h2></Reveal>
-        <Reveal delay={2}><p className="sub">A quick conversation — a few questions, then your documents.</p></Reveal>
+        <Reveal delay={2}><p className="sub">A few quick questions, then your documents. About a minute in total.</p></Reveal>
 
         <div className="startsec">
           <Reveal delay={2} className="composer">
@@ -316,7 +326,7 @@ export function StartComposer() {
               {idx === 0 && !ref && (
                 <div className="ansrow">
                   <div className="av">🧑‍💼</div>
-                  <div className="content"><div className="bub"><span className="qwho">Steve</span><strong>Hi, I&apos;m Steve.</strong> I&apos;m here to help with your project — this takes about a minute. I&apos;ll ask you a few quick questions.</div></div>
+                  <div className="content"><div className="bub"><span className="qwho">Project Coordinator</span><strong>Welcome to Translation Windows.</strong> Let&apos;s prepare your project together. I&apos;ll ask a few quick questions so our team can prepare the most accurate quotation possible — it takes about a minute.</div></div>
                 </div>
               )}
 
@@ -335,7 +345,8 @@ export function StartComposer() {
                   {onUploadStep ? (
                     <>
                       <div className="qcount">{qCountLabel}</div>
-                      <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Steve</span>{uploadLeadText}</span></div>
+                      <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Project Coordinator</span>{uploadLeadText}</span></div>
+                      {active?.why && <p className="qwhy">{active.why}</p>}
 
                       {fileErr && <p className="qerr" role="alert" style={{ marginBottom: 10 }}>{fileErr}</p>}
                       <FileBin
@@ -382,7 +393,8 @@ export function StartComposer() {
               {!submitted && active && active.kind !== "upload" && (
                 <div className="qcard-a" ref={activeRef}>
                   <div className="qcount">{qCountLabel}</div>
-                  <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Steve</span>{active.lead ? `${active.lead} ` : ""}{active.q}</span></div>
+                  <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Project Coordinator</span>{active.lead ? `${active.lead} ` : ""}{active.q}</span></div>
+                  {active.why && <p className="qwhy">{active.why}</p>}
 
                   {active.kind === "options" && (
                     <div className="opts" role="group" aria-label={active.q}>
@@ -423,7 +435,7 @@ export function StartComposer() {
                         ))}
                       </div>
                       {stepErr && <p className="qerr" role="alert">{stepErr}</p>}
-                      <button type="button" className="qnext" disabled={!canSubmit} onClick={submit}>Create my project →</button>
+                      <button type="button" className="qnext" disabled={!canSubmit} onClick={submit}>Create My Project →</button>
                     </>
                   )}
 
@@ -434,8 +446,8 @@ export function StartComposer() {
               {submitted && (
                 <div className="dash">
                   <div className="dash-hero">
-                    <p className="created"><span className="spark">✨</span> Project created</p>
-                    <h3>Great, your project has been created.</h3>
+                    <p className="created"><span className="spark">✓</span> Project created</p>
+                    <h3>Your project has been received successfully.</h3>
                     <p>{statusExplainer}</p>
                     <span className="refbig">
                       {ref}
@@ -460,6 +472,23 @@ export function StartComposer() {
                     <button type="button" className="na-btn" onClick={nextAction.run}>{nextAction.cta}</button>
                   </div>
 
+                  <div className="whatnext">
+                    <h4>What happens next</h4>
+                    <p className="wn-lead">Your Project Coordinator will:</p>
+                    <ol className="wn-list">
+                      <li>Review your documents</li>
+                      <li>Confirm your project requirements</li>
+                      <li>Prepare an accurate quotation</li>
+                      <li>Contact you if clarification is required</li>
+                      <li>Assign your project after approval</li>
+                    </ol>
+                    <div className="wn-hours">
+                      <p className="wnh-t">Project Review Hours</p>
+                      <p className="wnh-b">Monday – Friday · 8:00 AM – 6:00 PM Central Time</p>
+                      <p className="wnh-n">Quotation requests received during these hours are normally reviewed within 30–60 minutes. Larger or more complex projects may require additional review time.</p>
+                    </div>
+                  </div>
+
                   {missing.length > 0 && (
                     <div className="reminder" role="status">
                       <span className="ri">⚠️</span>
@@ -479,10 +508,10 @@ export function StartComposer() {
                     </div>
 
                     <div className="dcard">
-                      <h4>👤 Your project manager</h4>
+                      <h4>👤 Your Project Coordinator</h4>
                       <div className="pmcard" style={{ border: 0, background: "transparent", padding: 0 }}>
                         <div className="pmav">🪟</div>
-                        <div className="pmmeta"><div className="pn">Translation Windows team</div><div className="pd">Replies under 15 min · business hours</div></div>
+                        <div className="pmmeta"><div className="pn">Translation Windows team</div><div className="pd">Reviewed within 30–60 minutes · business hours</div></div>
                       </div>
                       <div className="pmacts" style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
                         <a className="wa" href="#" onClick={(e) => { e.preventDefault(); openWhatsApp(); }} style={{ textDecoration: "none", fontWeight: 600, fontSize: ".84rem", padding: "9px 16px", borderRadius: 100, background: "var(--accent)", color: "#fff" }}>WhatsApp</a>
@@ -499,7 +528,7 @@ export function StartComposer() {
                       <div className="srow" key={r.key}><b>{r.label}</b><span>{r.value}</span><span /></div>
                     ))}
                     <p className="ws-note" style={{ marginTop: 12 }}>
-                      Need to change a detail? <b>Message your project manager</b> above and we&apos;ll update it before the quote is prepared.
+                      Need to change a detail? <b>Message your Project Coordinator</b> above and we&apos;ll update it before the quote is prepared.
                     </p>
                   </div>
 
@@ -571,9 +600,11 @@ export function StartComposer() {
                 <li className={docCount > 0 ? "on" : ""}><b>{docCount > 0 ? "✓" : "—"}</b> Files: {docCount > 0 ? `${docCount} uploaded` : "none yet"}</li>
               </ul>
             )}
+            {answers.deadline && <div className="qi-stat"><p className="lab">Deadline</p><p className="val" style={{ fontSize: "1rem" }}>{answers.deadline}</p></div>}
             {turnaround && <div className="qi-stat"><p className="lab">Estimated turnaround</p><p className="val">{turnaround}</p></div>}
-            <div className="qi-stat"><p className="lab">Status</p><p className="val" style={{ fontSize: "1rem" }}>{sidebarStatus}</p></div>
-            {!submitted && <div className="qi-stat"><p className="lab">Typical quote response</p><p className="val">Under <em>15 minutes</em></p></div>}
+            <div className="qi-stat"><p className="lab">Current status</p><p className="val" style={{ fontSize: "1rem" }}>{sidebarStatus}</p></div>
+            <div className="qi-stat"><p className="lab">Next step</p><p className="val" style={{ fontSize: ".95rem", fontWeight: 500 }}>{nextStepText}</p></div>
+            {!submitted && <div className="qi-stat"><p className="lab">Quotation review</p><p className="val" style={{ fontSize: "1rem" }}><em>30–60 minutes</em></p><p style={{ fontSize: ".76rem", color: "var(--char-soft)" }}>during business hours</p></div>}
           </Reveal>
         </div>
       </div>

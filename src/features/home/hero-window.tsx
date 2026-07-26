@@ -217,14 +217,14 @@ export function HeroWindow() {
           </div>
         </Reveal>
         <Reveal delay={3}>
-          <p className="hero-sub">Certified by native experts. Accepted worldwide.</p>
+          <p className="hero-sub">Certified by native professional linguists. Prepared to meet USCIS, court and university requirements.</p>
         </Reveal>
         <Reveal delay={4}>
           <div className="hero-ctas">
             <a className="btn-a" href="#start">
-              Get your quote in under 60 seconds <span className="arr">→</span>
+              Start your project in under 60 seconds <span className="arr">→</span>
             </a>
-            <a className="btn-b" href="#journey">Watch how it works</a>
+            <a className="btn-b" href="#journey">See how it works</a>
           </div>
         </Reveal>
       </div>

@@ -71,7 +71,7 @@ export default function ResourcesPage() {
             <FaqAccordion items={faqs} />
           </div>
         </div>
-        <CtaBand title="Still have questions?" body="Start a project and ask your project manager directly — real answers, not FAQs." />
+        <CtaBand title="Still have questions?" body="Start a project and ask your Project Coordinator directly — real answers, not FAQs." />
       </Container>
     </div>
   );

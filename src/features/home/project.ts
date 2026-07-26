@@ -52,11 +52,12 @@ export function relTime(then: number): string {
 }
 
 export const STATUS_STAGES: { key: ProjectStatus; label: string }[] = [
-  { key: "draft",       label: "Building" },
-  { key: "submitted",   label: "Submitted" },
-  { key: "reviewing",   label: "Under review" },
-  { key: "quote_ready", label: "Quote ready" },
+  { key: "draft",       label: "Project Created" },
+  { key: "submitted",   label: "Files Received" },
+  { key: "reviewing",   label: "Under Review" },
+  { key: "quote_ready", label: "Quotation" },
 ];
+
 
 export function newRef(): string {
   return `TW-${Date.now().toString(36).toUpperCase().slice(-6)}`;

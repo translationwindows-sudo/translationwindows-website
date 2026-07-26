@@ -84,7 +84,7 @@ type Goal = {
   rows: [string, string][]; msg: string; d: 0 | 1 | 2 | 3 | 4;
 };
 const GOALS: Goal[] = [
-  { g: "immigration", gl: "移", h: "Immigration", p: "Certified translations built to pass USCIS review the first time.", d: 0,
+  { g: "immigration", gl: "移", h: "Immigration", p: "Certified translations prepared to meet USCIS requirements.", d: 0,
     rows: [["Documents", "Birth & marriage certificates, diplomas, police records"], ["Languages", "Spanish, Vietnamese, Arabic, Chinese, Ukrainian"], ["Requirement", "Signed Certificate of Accuracy; notarization on request"]],
     msg: "I need certified translation for immigration (USCIS)." },
   { g: "legal", gl: "§", h: "Legal", p: "One mistranslated clause changes an outcome — so legal work gets legal linguists.", d: 1,
@@ -201,7 +201,7 @@ export function LanguageUniverse() {
             <p className="lnat">{d.n}</p>
             <div className="lrow"><b>Native linguists</b><span>Yes — in-country experts</span></div>
             <div className="lrow"><b>Popular work</b><span>{d.work}</span></div>
-            <div className="lrow"><b>Certified translation</b><span>Available, USCIS-ready</span></div>
+            <div className="lrow"><b>Certified translation</b><span>Prepared for USCIS applications</span></div>
             <div className="lrow"><b>Typical certificate turnaround</b><span>1–2 business days</span></div>
             <div className="lrow"><b>Top pairs</b><span>↔ English</span></div>
             <button type="button" className="cta" onClick={() => compose(`I need translation from ${sel} to English.`)}>
@@ -273,7 +273,7 @@ export function Duet() {
 type Sol = { i: string; h: string; use: string; items: string[]; note?: string; cta: string; msg: string; d: 0 | 1 | 2 | 3 };
 const SOLS: Sol[] = [
   { i: "🖋️", h: "Translation", use: "From a certified birth certificate to a patent portfolio — matched to linguists in that exact field.", d: 0,
-    items: ["Certified translation (USCIS-ready)", "Legal & court documents", "Medical & life sciences", "Technical & engineering", "Financial & business"],
+    items: ["Certified translation, prepared for USCIS applications", "Legal & court documents", "Medical & life sciences", "Technical & engineering", "Financial & business"],
     cta: "Start a translation project →", msg: "I need document translation." },
   { i: "🌐", h: "Localization", use: "Products that read native in every market — culture, tone and search keywords included.", d: 1,
     items: ["Website localization", "Software & app strings", "SEO localization", "E-learning courses", "Game content"],
@@ -334,6 +334,39 @@ export function Solutions() {
   );
 }
 
+/* ── S6a · Trust panel — what certified translation includes ── */
+const CERT_INCLUDES = [
+  "Signed Certificate of Accuracy",
+  "Prepared for USCIS immigration applications",
+  "Professional formatting that mirrors your original",
+  "Native professional linguists",
+  "Confidential document handling",
+  "Secure online submission",
+];
+
+export function TrustPanel() {
+  return (
+    <section id="certified-includes">
+      <div className="sec" style={{ paddingTop: 90, paddingBottom: 90 }}>
+        <Reveal as="p" className="k">Certified translation</Reveal>
+        <Reveal delay={1}><h2>What every certified translation includes.</h2></Reveal>
+        <Reveal delay={2}>
+          <p className="sub">
+            The same standard applies to every certified document we prepare, whatever the language.
+          </p>
+        </Reveal>
+        <Reveal delay={2}>
+          <ul className="trust-list">
+            {CERT_INCLUDES.map((item) => (
+              <li key={item}><span className="tk">✓</span>{item}</li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ── S6b · Experience ────────────────────────────────────── */
 export function Experience() {
   return (
@@ -350,31 +383,35 @@ export function Experience() {
         <div className="exp-grid">
           <Reveal className="exp-col">
             <p className="exp-h">Entertainment</p>
-            <p className="wordmarks"><span>HBO</span><span>NETFLIX</span><span>DISNEY</span><span>WARNER BROS.</span></p>
             <p className="exp-t">Subtitling, dubbing scripts and metadata localization for series and film catalogs.</p>
           </Reveal>
           <Reveal delay={1} className="exp-col">
-            <p className="exp-h">Healthcare</p>
-            <p className="wordmarks"><span>PHILIPS</span><span>ACCU-CHEK</span></p>
-            <p className="exp-t">Device documentation, IFUs and patient-facing material under regulatory review.</p>
+            <p className="exp-h">Healthcare &amp; medical devices</p>
+            <p className="exp-t">Device documentation, instructions for use and patient-facing material prepared under regulatory review.</p>
           </Reveal>
           <Reveal delay={2} className="exp-col">
-            <p className="exp-h">Technology</p>
-            <p className="wordmarks"><span>Global software &amp; SaaS teams</span></p>
-            <p className="exp-t">UI strings, help centers and release notes localized across simultaneous market launches.</p>
+            <p className="exp-h">Life sciences</p>
+            <p className="exp-t">Clinical trial documentation and research material translated by specialist linguists.</p>
           </Reveal>
           <Reveal delay={3} className="exp-col">
             <p className="exp-h">Manufacturing</p>
-            <p className="wordmarks"><span>International manufacturers</span></p>
-            <p className="exp-t">Multilingual manuals and safety documentation with locked, reusable terminology.</p>
+            <p className="exp-t">Multilingual technical manuals and safety documentation with locked, reusable terminology.</p>
+          </Reveal>
+          <Reveal delay={1} className="exp-col">
+            <p className="exp-h">Legal services</p>
+            <p className="exp-t">Contracts, filings and discovery documents prepared for court and corporate use.</p>
+          </Reveal>
+          <Reveal delay={2} className="exp-col">
+            <p className="exp-h">Technology</p>
+            <p className="exp-t">Software interfaces, help centers and release notes localized for simultaneous market launches.</p>
           </Reveal>
         </div>
         <Reveal delay={3}>
           <p className="exp-note">
-            Representative organizations shown reflect projects completed by members of our
-            linguistic team through direct engagements and language service partners. Names
-            illustrate relevant industry experience and do not imply a direct commercial
-            relationship with Translation Windows.
+            Representative experience includes work supporting organizations such as HBO, Netflix,
+            Disney, Warner Bros., Philips and Accu-Chek, completed by members of our linguistic team
+            through direct engagements and trusted language service partners. This reflects relevant
+            industry experience and does not imply a direct commercial relationship with Translation Windows.
           </p>
         </Reveal>
       </div>
@@ -385,7 +422,7 @@ export function Experience() {
 /* ── S7 · Why clients stay ───────────────────────────────── */
 const STAY: [string, string, string][] = [
   ["01", "Terminology becomes an asset", "Your approved terms live in a glossary that every future project inherits — year three sounds exactly like year one."],
-  ["02", "One project manager remembers your history", "Context never resets. The person answering already knows your formats, deadlines and preferences."],
+  ["02", "One Project Coordinator remembers your history", "Context never resets. The person answering already knows your formats, deadlines and preferences."],
   ["03", "Formatting remains identical", "Tables, stamps, seals and layouts are reproduced — reviewers compare source and translation side by side without friction."],
   ["04", "Translation memories reduce long-term cost", "Repeated sentences are recognized and reused, so recurring documents get faster and cheaper over time — not more expensive."],
   ["05", "Quality compounds", "Every review cycle feeds back into your glossary and memory. The tenth project is measurably better than the first."],
@@ -457,12 +494,12 @@ export function FinalCta() {
       <Reveal delay={2}>
         <div className="promise">
           <span className="pr"><b>1</b> Upload your files</span>
-          <span className="pr"><b>2</b> Receive your personalized quote</span>
+          <span className="pr"><b>2</b> Receive your personalized quotation</span>
         </div>
       </Reveal>
       <Reveal delay={3}>
         <div className="hero-ctas">
-          <a className="btn-a" href="#start">Get your quote in under 60 seconds <span className="arr">→</span></a>
+          <a className="btn-a" href="#start">Start your project in under 60 seconds <span className="arr">→</span></a>
           <a className="btn-b" href="https://wa.me/12812053932">WhatsApp us</a>
           <a className="btn-b" href="tel:+12812053932">(281) 205-3932</a>
         </div>

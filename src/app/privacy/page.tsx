@@ -58,10 +58,6 @@ export default function PrivacyPage() {
 
             <h2>10. Contact us</h2>
             <p>Questions about this policy can be sent to <a href={`mailto:${siteConfig.email}`} style={{ color: "var(--accent)" }}>{siteConfig.email}</a> or {siteConfig.phoneDisplay}.</p>
-
-            <div className="disclaimer">
-              This page is a general-purpose template intended to describe our current practices in plain language. It should be reviewed by qualified legal counsel before being relied upon as a complete legal document, particularly regarding jurisdiction-specific requirements (e.g. GDPR, CCPA).
-            </div>
           </div>
         </div>
       </Container>

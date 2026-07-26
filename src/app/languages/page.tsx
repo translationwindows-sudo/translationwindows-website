@@ -20,7 +20,7 @@ const featuredGrid: TopicCard[] = [
 ];
 
 const featuredDetail: TopicDetail[] = [
-  { id: "spanish", title: "Spanish", body: "Spanish is our highest-volume language pair — native linguists across immigration, legal, medical and business translation, plus our Spanish interpretation service.", points: ["Certified translation, USCIS-ready", "Remote and on-site interpretation", "1–2 business day typical turnaround"] },
+  { id: "spanish", title: "Spanish", body: "Spanish is our highest-volume language pair — native linguists across immigration, legal, medical and business translation, plus our Spanish interpretation service.", points: ["Certified translation, prepared for USCIS applications", "Remote and on-site interpretation", "1–2 business day typical turnaround"] },
   { id: "chinese", title: "Chinese", body: "We work in both Simplified and Traditional Chinese, across business, manufacturing and legal documentation.", points: ["Simplified and Traditional script", "Manufacturing and technical manuals", "Business and legal documents"] },
   { id: "arabic", title: "Arabic", body: "Arabic translation for immigration, legal and government use, handled by linguists fluent in regional dialects and formal register.", points: ["Immigration and government documents", "Legal and court filings", "Certified translation available"] },
   { id: "vietnamese", title: "Vietnamese", body: "A frequently requested pair for immigration and medical documentation, with certified translation included.", points: ["Immigration and personal documents", "Medical records", "Certified translation available"] },

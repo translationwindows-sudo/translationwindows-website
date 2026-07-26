@@ -11,6 +11,7 @@ import {
   LanguageUniverse,
   Solutions,
   Stay,
+  TrustPanel,
 } from "@/features/home/home-sections";
 import { StartComposer } from "@/features/home/start-composer";
 
@@ -19,7 +20,7 @@ import "@/features/home/home.css";
 export const metadata: Metadata = {
   title: "Translation Windows — Certified Translation & Global Language Solutions",
   description:
-    "Certified document translation, localization, multimedia, Spanish interpretation and desktop publishing. USCIS-accepted, native experts, worldwide delivery. EST. 2017.",
+    "Certified document translation, localization, multimedia, Spanish interpretation and desktop publishing. Prepared to meet USCIS requirements, by native professional linguists. EST. 2017.",
 };
 
 export default function HomePage() {
@@ -40,6 +41,7 @@ export default function HomePage() {
       <LanguageUniverse />
       <Duet />
       <Solutions />
+      <TrustPanel />
       <Experience />
       <Stay />
       <Knowledge />

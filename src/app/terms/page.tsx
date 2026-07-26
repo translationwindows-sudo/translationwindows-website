@@ -31,7 +31,7 @@ export default function TermsPage() {
             <p>We provide certified and standard translation, localization, subtitling, voice-over, desktop publishing, Spanish interpretation, and AI-assisted language services. Specific deliverables, pricing, and turnaround are confirmed in each project&apos;s quotation.</p>
 
             <h2>3. Quotations and pricing</h2>
-            <p>Quotations are prepared based on the documents and information provided. Final pricing may be adjusted if the scope changes once documents are fully reviewed. All quotations are reviewed and approved by a project manager before being sent.</p>
+            <p>Quotations are prepared based on the documents and information provided. Final pricing may be adjusted if the scope changes once documents are fully reviewed. All quotations are reviewed and approved by a Project Coordinator before being sent.</p>
 
             <h2>4. Client responsibilities</h2>
             <ul>
@@ -63,10 +63,6 @@ export default function TermsPage() {
 
             <h2>12. Contact</h2>
             <p>Questions about these terms can be sent to <a href={`mailto:${siteConfig.email}`} style={{ color: "var(--accent)" }}>{siteConfig.email}</a> or {siteConfig.phoneDisplay}.</p>
-
-            <div className="disclaimer">
-              This page is a general-purpose template intended to describe our current practices in plain language. It should be reviewed by qualified legal counsel before being relied upon as a complete, binding legal document.
-            </div>
           </div>
         </div>
       </Container>

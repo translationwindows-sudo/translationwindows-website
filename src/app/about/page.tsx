@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const values = [
   { i: "🎯", h: "Accuracy first", p: "Every deliverable is reviewed by a native professional, no exceptions." },
-  { i: "🤝", h: "One point of contact", p: "A named project manager who knows your history across every project." },
+  { i: "🤝", h: "One point of contact", p: "A named Project Coordinator who knows your history across every project." },
   { i: "🔒", h: "Confidentiality", p: "Documents handled with the same care as the sensitive information they contain." },
   { i: "⚡", h: "Technology, in service of people", p: "AI accelerates preparation — humans remain accountable for every result." },
 ];
@@ -84,7 +84,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <CtaBand title="Work with us" body="Start a project today and see the difference a dedicated project manager makes." />
+        <CtaBand title="Work with us" body="Start a project today and see the difference a dedicated Project Coordinator makes." />
       </Container>
     </div>
   );

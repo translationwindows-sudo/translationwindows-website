@@ -8,7 +8,7 @@ export const siteConfig = {
   legalName: "Transinformatic LLC",
   tagline: "Every language passes through one window",
   description:
-    "Certified document translation, transcription, subtitling and localization in every language — accepted by USCIS, courts and universities worldwide.",
+    "Certified document translation, transcription, subtitling and localization in every language — prepared to meet the requirements of USCIS, courts and universities.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://translationwindows.com",
   phone: "+12812053932",
   phoneDisplay: "(281) 205-3932",

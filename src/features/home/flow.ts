@@ -1,7 +1,7 @@
 /**
  * Guided intake — the interview script.
  *
- * The assistant drives: one question at a time, each answer unlocking the
+ * The coordinator drives: one question at a time, each answer unlocking the
  * next. The upload step is placed deliberately AFTER we know what the
  * project is, so we only ask for documents once we've earned the right to.
  */
@@ -17,6 +17,8 @@ export interface Step {
   q: string;
   /** short lead-in the coordinator says before the question */
   lead?: string;
+  /** quiet reassurance explaining why this question matters */
+  why?: string;
   options?: string[];
   placeholder?: string;
   inputType?: "text" | "email" | "tel" | "url";
@@ -33,29 +35,35 @@ const LANGS = [
 /* ── reusable steps ── */
 const src = (): Step => ({
   id: "source", kind: "select", group: "Language",
-  lead: "Oh, that's great — I can definitely help with that!",
+  lead: "Thank you.",
   q: "What language is the original document in?", options: LANGS,
+  why: "This tells us which of our native linguists to assign.",
 });
 const tgt = (): Step => ({
   id: "target", kind: "select", group: "Language",
-  lead: "Perfect, thank you.",
+  lead: "Great.",
   q: "And which language do you need it translated into?", options: LANGS,
+  why: "Each language pair is handled by a specialist in that direction.",
 });
 const deadline = (): Step => ({
   id: "deadline", kind: "options", group: "Requirements",
   q: "When do you need it?", options: ["As soon as possible", "Within a week", "Flexible"],
+  why: "This helps us schedule the right linguist for your timeline.",
 });
 const upload = (): Step => ({
   id: "files", kind: "upload", group: "Documents",
-  q: "Please upload your documents so we can prepare an accurate quotation.",
+  q: "Please upload your documents whenever you are ready.",
+  why: "Your documents are treated as confidential from the moment they are uploaded. Access is limited to the Translation Windows team assigned to your project, and they are used only to prepare your quotation and complete your translation.",
 });
 const contactName = (): Step => ({
   id: "name", kind: "text", group: "Contact",
-  lead: "Just a couple more quick details and we're all set.", q: "Who should we address the quotation to?", placeholder: "Full name",
+  lead: "You're almost finished.", q: "Who should we address the quotation to?", placeholder: "Full name",
+  why: "Your quotation is prepared as a formal document, so we address it properly.",
 });
 const contactEmail = (): Step => ({
   id: "email", kind: "text", group: "Contact",
   q: "What email should we send it to?", placeholder: "you@email.com", inputType: "email",
+  why: "Your quotation and updates go here. We never share it.",
 });
 const contactPhone = (): Step => ({
   id: "phone", kind: "text", group: "Contact",
@@ -63,7 +71,7 @@ const contactPhone = (): Step => ({
 });
 const review = (): Step => ({
   id: "review", kind: "review", group: "Review",
-  lead: "Perfect — that's everything I need.", q: "Here's your project — ready to create?",
+  lead: "Everything looks good.", q: "Here is your project — ready to create?",
 });
 
 /** Documents → contact → review tail, shared by every branch. */
@@ -80,7 +88,7 @@ export const FLOWS: Record<string, Step[]> = {
     deadline(), ...tail(),
   ],
   "USCIS / immigration": [
-    { id: "doctype", kind: "options", group: "Project", lead: "Oh, that's great — I can definitely help with that!", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
+    { id: "doctype", kind: "options", group: "Project", lead: "Thank you.", q: "Which document is it?", options: ["Birth certificate", "Marriage certificate", "Diploma / transcript", "Police record", "Other"] },
     src(), tgt(),
     { id: "purpose", kind: "options", group: "Requirements", q: "Is this for:", options: ["USCIS", "Court", "University", "Personal use"] },
     { id: "cert", kind: "options", group: "Requirements", q: "Certified translation is included. Would you like notarization as well?", options: ["Certified only", "Certified + notarized"] },
@@ -101,14 +109,14 @@ export const FLOWS: Record<string, Step[]> = {
     deadline(), ...tail(),
   ],
   "Website / software": [
-    { id: "url", kind: "text", group: "Project", lead: "Good — let's scope it.", q: "What's the website or app address?", placeholder: "https://", inputType: "url", optional: true },
+    { id: "url", kind: "text", group: "Project", lead: "Thank you.", q: "What is the website or app address?", placeholder: "https://", inputType: "url", optional: true },
     { id: "target", kind: "select", group: "Language", q: "Which language do you need it in? (pick the main one)", options: LANGS },
     { id: "pages", kind: "options", group: "Project", q: "Roughly how many pages or screens?", options: ["Under 10", "10–50", "50+", "Not sure"] },
     { id: "seo", kind: "options", group: "Requirements", q: "Should we localize your SEO as well?", options: ["Yes", "No", "Not sure"] },
     deadline(), ...tail(),
   ],
   "Spanish interpreter": [
-    { id: "mode", kind: "options", group: "Project", lead: "We provide Spanish interpreting.", q: "Remote or on-site?", options: ["Remote", "On-site"] },
+    { id: "mode", kind: "options", group: "Project", lead: "We provide Spanish interpreting.", q: "Remote or on-site?", options: ["Remote", "On-site"], why: "This determines availability and scheduling." },
     { id: "setting", kind: "options", group: "Project", q: "What's the setting?", options: ["Legal", "Medical", "Business", "Other"] },
     deadline(), ...tail(),
   ],

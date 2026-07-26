@@ -12,7 +12,7 @@ export function Crumb({ label }: { label: string }) {
 
 /** Standard pillar-page hero: eyebrow, H1, intro, CTAs. */
 export function PwHero({
-  eyebrow, title, children, primaryLabel = "Start your project", primaryHref = "/#start",
+  eyebrow, title, children, primaryLabel = "Start Your Project", primaryHref = "/#start",
   secondaryLabel, secondaryHref,
 }: {
   eyebrow: string; title: string; children: ReactNode;
@@ -44,7 +44,7 @@ export function TopicGrid({ items }: { items: TopicCard[] }) {
           <div className="ic">{it.icon}</div>
           <h3>{it.title}</h3>
           <p>{it.desc}</p>
-          <span className="go">Read more ↓</span>
+          <span className="go">See what is included ↓</span>
         </a>
       ))}
     </div>
@@ -79,7 +79,7 @@ export function CtaBand({ title, body }: { title: string; body: string }) {
     <div className="pw-cta-band">
       <h2>{title}</h2>
       <p>{body}</p>
-      <Link className="pw-btn-a" href="/#start">Start your project →</Link>
+      <Link className="pw-btn-a" href="/#start">Start Your Project →</Link>
     </div>
   );
 }

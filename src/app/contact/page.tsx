@@ -17,7 +17,7 @@ export default function ContactPage() {
       <Container>
         <Crumb label="Contact" />
         <PwHero eyebrow="Get in touch" title="Let's talk about your project.">
-          Reach us however is easiest — or start your project directly and a project manager will follow up.
+          Reach us however is easiest — or start your project directly and a Project Coordinator will follow up.
         </PwHero>
       </Container>
       <Container>
@@ -28,21 +28,21 @@ export default function ContactPage() {
               <div className="pw-contact-card">
                 <h4>Phone</h4>
                 <a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a>
-                <p>Business hours, Central Time</p>
+                <p>Monday – Friday · 8:00 AM – 6:00 PM Central Time</p>
               </div>
               <div className="pw-contact-card">
                 <h4>WhatsApp</h4>
-                <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>
-                <p>Fastest way to reach a project manager</p>
+                <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">Talk to a Project Coordinator on WhatsApp</a>
+                <p>Fastest way to reach a Project Coordinator</p>
               </div>
               <div className="pw-contact-card">
                 <h4>Email</h4>
                 <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
               </div>
               <div className="pw-contact-card">
-                <h4>Business hours</h4>
-                <p>Monday – Friday, 9:00 AM – 6:00 PM CT</p>
-                <p>Quotes typically returned within 15 minutes during these hours</p>
+                <h4>Project Review Hours</h4>
+                <p>Monday – Friday · 8:00 AM – 6:00 PM Central Time</p>
+                <p>Most quotation requests are reviewed within 30–60 minutes during business hours. Larger or more complex projects may require additional review time.</p>
               </div>
               <div className="pw-contact-card">
                 <h4>Office</h4>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const grid: TopicCard[] = [
-  { id: "immigration", icon: "🛂", title: "Immigration", desc: "Certified documents built to pass USCIS and consular review." },
+  { id: "immigration", icon: "🛂", title: "Immigration", desc: "Certified translations prepared to meet USCIS and consular requirements." },
   { id: "legal", icon: "§", title: "Legal", desc: "Contracts, filings and discovery, handled by legal-fluent linguists." },
   { id: "medical", icon: "⚕️", title: "Medical & Life Sciences", desc: "Clinical terminology treated as a safety requirement, not a style choice." },
   { id: "manufacturing", icon: "⚙️", title: "Manufacturing", desc: "Manuals and specs with terminology locked across every document." },
@@ -21,7 +21,7 @@ const grid: TopicCard[] = [
 ];
 
 const details: TopicDetail[] = [
-  { id: "immigration", title: "Immigration", body: "Our most requested category: certified translations of personal documents, formatted to the exact standard immigration authorities expect.", points: ["Birth, marriage and death certificates", "Police clearance and court records", "Academic diplomas and transcripts"] },
+  { id: "immigration", title: "Immigration", body: "Our most requested category: certified translations of personal documents, prepared to meet the requirements immigration authorities set out.", points: ["Birth, marriage and death certificates", "Police clearance and court records", "Academic diplomas and transcripts"] },
   { id: "legal", title: "Legal", body: "Law firms and corporate counsel rely on us for precise, certifiable translations where a single word can change a case.", points: ["Contracts and commercial agreements", "Court judgments and pleadings", "Regulatory and compliance filings"] },
   { id: "medical", title: "Medical & Life Sciences", body: "Hospitals, clinics and device manufacturers trust us with documentation where accuracy is a patient-safety issue.", points: ["Patient records and consent forms", "Clinical trial documentation", "Device manuals and regulatory filings"] },
   { id: "manufacturing", title: "Manufacturing", body: "The same part number needs the same name on page four and page four hundred. We build and maintain terminology glossaries per client.", points: ["Technical manuals and safety data sheets", "Training material", "Multilingual specification sheets"] },
