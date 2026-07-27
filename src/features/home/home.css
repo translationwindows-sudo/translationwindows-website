@@ -501,3 +501,15 @@
 .twh .wn-hours .wnh-t{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--char-soft);margin-bottom:5px}
 .twh .wn-hours .wnh-b{font-family:var(--font-display);font-weight:600;font-size:.95rem;margin-bottom:6px}
 .twh .wn-hours .wnh-n{font-size:.84rem;color:var(--char-soft);line-height:1.55;margin:0}
+
+/* ═══ Real submission: error state + tracking link ═══ */
+.twh .submit-error{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:16px 18px;margin:14px 0}
+.twh .submit-error .se-t{font-family:var(--font-display);font-weight:700;font-size:.98rem;margin-bottom:5px}
+.twh .submit-error .se-b{font-size:.9rem;color:var(--char-soft);line-height:1.55;margin-bottom:12px}
+.twh .submit-error .se-acts{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.twh .submit-error .se-retry{border:0;background:var(--accent);color:#fff;font-family:var(--font-display);font-weight:600;font-size:.88rem;padding:10px 20px;border-radius:100px;cursor:pointer}
+.twh .submit-error .se-wa{border:1.5px solid var(--line);background:#fff;color:var(--char);font-weight:600;font-size:.86rem;padding:10px 18px;border-radius:100px;cursor:pointer}
+.twh .submit-error .se-n{font-size:.8rem;color:var(--char-soft);margin:0}
+.twh .tracklink{font-size:.84rem;color:#B9B9B4;margin-top:10px}
+.twh .tracklink a{color:#fff;text-decoration:underline}
+.twh .tracklink button{background:none;border:0;color:#fff;text-decoration:underline;cursor:pointer;font-size:.84rem;padding:0}

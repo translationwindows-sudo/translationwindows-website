@@ -18,6 +18,9 @@ export interface ProjectFile {
   role: FileRole;
   uploadedAt: number;   // epoch ms
   status: FileStatus;
+  /** The real browser File, kept so it can be uploaded on submit.
+   *  Absent for records restored from the server. */
+  raw?: File;
 }
 
 export interface ActivityEvent {

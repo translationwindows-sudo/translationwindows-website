@@ -49,6 +49,9 @@ export function StartComposer() {
 
   const [fabHidden, setFabHidden] = useState(true);
   const [live, setLive] = useState("");
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [trackingToken, setTrackingToken] = useState<string | null>(null);
   const [moreFilesOpen, setMoreFilesOpen] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -177,7 +180,7 @@ export function StartComposer() {
     setFileErr("");
     const added: ProjectFile[] = Array.from(list).map((f) => ({
       id: `f${fileSeq++}`, name: f.name, size: f.size, type: f.type || "file", role,
-      uploadedAt: Date.now(), status: "uploaded" as const,
+      uploadedAt: Date.now(), status: "uploaded" as const, raw: f,
     }));
     setFiles((prev) => [...prev, ...added]);
     setLive(`${added.length} file${added.length > 1 ? "s" : ""} added.`);
@@ -202,14 +205,97 @@ export function StartComposer() {
 
   const docCount = files.filter((f) => f.role === "document").length;
 
-  const canSubmit = active?.kind === "review" && docCount > 0 && !!answers.email;
-  const submit = useCallback(() => {
-    if (!canSubmit) return;
-    setStatus("submitted");
-    setLive(`Project ${ref} created and sent for review.`);
-    logActivity("Project submitted for review", "🚀");
-    window.setTimeout(() => { setStatus("reviewing"); logActivity("A Project Coordinator is reviewing your documents", "👀"); }, 1400);
-  }, [canSubmit, ref, logActivity]);
+  const canSubmit = active?.kind === "review" && docCount > 0 && !!answers.email && !sending;
+
+  /**
+   * Real submission. Posts to our Vercel route, which signs the payload and
+   * forwards it to the PHP backend. The reference shown afterwards is the one
+   * the SERVER generated — never a browser-made value.
+   *
+   * On failure the customer keeps every answer and file, sees an honest
+   * message, and can retry or reach us on WhatsApp.
+   */
+  const submit = useCallback(async () => {
+    if (!canSubmit || sending) return;
+
+    setSending(true);
+    setSubmitError(null);
+    setLive("Submitting your project…");
+
+    try {
+      const skip = ["type", "name", "email", "phone", "source", "target",
+                    "purpose", "cert", "deadline", "review", "files"];
+
+      const payload = {
+        customer: {
+          full_name: answers.name ?? "",
+          email: answers.email ?? "",
+          phone: answers.phone && answers.phone !== "—" ? answers.phone : "",
+          company: "",
+          preferred_language: "English",
+          preferred_contact: "email",
+        },
+        project: {
+          service: answers.type ?? "",
+          source_lang: answers.source ?? "",
+          target_lang: answers.target ?? "",
+          purpose: answers.purpose ?? "",
+          certification: answers.cert ?? "",
+          deadline: answers.deadline ?? "",
+          priority: answers.deadline === "As soon as possible" ? "Rush" : "Standard",
+          customer_notes: "",
+          source: "Website",
+        },
+        answers: steps
+          .filter((s) => !skip.includes(s.id) && answers[s.id])
+          .map((s) => ({
+            key: s.id,
+            label: FIELD_LABELS[s.id] ?? s.id,
+            value: answers[s.id],
+          })),
+      };
+
+      const form = new FormData();
+      form.append("payload", JSON.stringify(payload));
+      files.forEach((f) => {
+        if (f.raw) {
+          form.append("files", f.raw, f.name);
+          form.append("file_roles[]", f.role);
+        }
+      });
+
+      const res = await fetch("/api/submit-project", { method: "POST", body: form });
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data?.ok) {
+        const message = (data && typeof data.error === "string")
+          ? data.error
+          : "We could not save your project. Please try again, or message us on WhatsApp and we will take it from there.";
+        setSubmitError(message);
+        setLive(message);
+        setSending(false);
+        return;
+      }
+
+      // Success — adopt the SERVER's reference and tracking token.
+      setRef(data.reference);
+      setTrackingToken(data.trackingToken ?? null);
+      setStatus("submitted");
+      logActivity(`Project ${data.reference} submitted for review`, "🚀");
+      setLive(`Your project has been received. Reference ${data.reference}.`);
+      window.setTimeout(() => {
+        setStatus("reviewing");
+        logActivity("Your Project Coordinator is reviewing your documents", "👀");
+      }, 1400);
+    } catch (err) {
+      console.error("[TW] submit failed", err);
+      const message = "We could not reach our system just now. Your details are still here — please try again, or message us on WhatsApp.";
+      setSubmitError(message);
+      setLive(message);
+    } finally {
+      setSending(false);
+    }
+  }, [canSubmit, sending, answers, steps, files, logActivity]);
 
   const openWhatsApp = useCallback(() => {
     const lines = [`Project ${ref ?? ""}`.trim()];
@@ -435,7 +521,22 @@ export function StartComposer() {
                         ))}
                       </div>
                       {stepErr && <p className="qerr" role="alert">{stepErr}</p>}
-                      <button type="button" className="qnext" disabled={!canSubmit} onClick={submit}>Create My Project →</button>
+
+                      {submitError && (
+                        <div className="submit-error" role="alert">
+                          <p className="se-t">We could not create your project</p>
+                          <p className="se-b">{submitError}</p>
+                          <div className="se-acts">
+                            <button type="button" className="se-retry" onClick={() => { void submit(); }}>Try again</button>
+                            <button type="button" className="se-wa" onClick={openWhatsApp}>Send on WhatsApp instead</button>
+                          </div>
+                          <p className="se-n">Nothing has been lost — your answers and files are still here.</p>
+                        </div>
+                      )}
+
+                      <button type="button" className="qnext" disabled={!canSubmit} onClick={() => { void submit(); }}>
+                        {sending ? "Creating your project…" : "Create My Project →"}
+                      </button>
                     </>
                   )}
 
@@ -453,6 +554,17 @@ export function StartComposer() {
                       {ref}
                       <button type="button" className="copy" onClick={() => { navigator.clipboard?.writeText(ref ?? ""); setLive("Reference copied."); }}>Copy reference</button>
                     </span>
+                    {trackingToken && (
+                      <p className="tracklink">
+                        Track this project anytime:{" "}
+                        <a href={`/track/${trackingToken}`}>translationwindows.com/track/…</a>
+                        {" · "}
+                        <button type="button" onClick={() => {
+                          navigator.clipboard?.writeText(`${window.location.origin}/track/${trackingToken}`);
+                          setLive("Tracking link copied.");
+                        }}>Copy link</button>
+                      </p>
+                    )}
                   </div>
 
                   <div className="ptimeline" aria-label="Project status">
