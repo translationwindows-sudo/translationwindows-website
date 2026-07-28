@@ -462,9 +462,30 @@
 @media (max-width:420px){.twh .placeholders{grid-template-columns:1fr 1fr}}
 
 /* ═══ Sequential-interview polish: confirmed chips + live sidebar ═══ */
-.twh .ansrow.confirmed .av{background:#E7F5EC;color:#1a9d54;border-color:#CDEBD8}
-.twh .ansrow.confirmed .bub{background:#F4FBF6;border-color:#CDEBD8;font-weight:500}
-.twh .ansrow.confirmed .bub b{color:var(--char-soft);font-weight:600;margin-right:4px}
+/* ── Confirmed answers ───────────────────────────────────────────────
+   These are a RECORD, not a chat message, so they sit full width on the
+   left rather than mimicking the customer's own bubbles. The explicit
+   colour is essential: .ansrow.user sets white text for dark bubbles,
+   and without resetting it here the value renders white-on-white. */
+.twh .ansrow.confirmed{flex-direction:row;margin-bottom:8px}
+.twh .ansrow.confirmed .av{width:26px;height:26px;border-radius:8px;font-size:.78rem;
+  background:#E7F5EC;color:#1a9d54;border:1px solid #CDEBD8;margin-top:1px}
+.twh .ansrow.confirmed .content{max-width:none;flex:1;display:flex;align-items:center;gap:10px}
+.twh .ansrow.confirmed .bub{
+  background:#F4FBF6;border:1px solid #CDEBD8;color:var(--char);   /* ← the fix */
+  border-radius:10px;padding:8px 14px;font-size:.9rem;font-weight:500;
+  flex:1;display:flex;align-items:baseline;gap:8px;
+}
+.twh .ansrow.confirmed .bub b{color:var(--char-soft);font-weight:600;font-size:.82rem;
+  letter-spacing:.01em;flex:none;margin:0}
+.twh .ansrow.confirmed .bub .val{color:var(--char);font-weight:600}
+.twh .ansrow.confirmed .edit{margin-top:0;flex:none;color:var(--accent);opacity:.75;
+  text-decoration:none;border:1px solid transparent;border-radius:7px;padding:4px 10px}
+.twh .ansrow.confirmed .edit:hover{opacity:1;background:var(--accent-soft);border-color:#F3CFC4}
+@media (max-width:560px){
+  .twh .ansrow.confirmed .content{flex-direction:column;align-items:stretch;gap:4px}
+  .twh .ansrow.confirmed .edit{align-self:flex-start}
+}
 .twh .livesum .qi-list li{opacity:.55;transition:opacity .3s}
 .twh .livesum .qi-list li.on{opacity:1}
 .twh .livesum .qi-list li b{display:inline-block;width:14px;color:var(--char-soft)}

@@ -36,3 +36,7 @@
 .tv-btn.ghost{background:#fff;color:var(--char);border:1.5px solid var(--line)}
 .tv-btn.ghost:hover{border-color:var(--accent)}
 @media(max-width:560px){.tv-rows div{grid-template-columns:1fr;gap:2px}}
+.tv-deliver{border-color:var(--ok);background:#F4FBF6}
+.tv-file{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 0;border-top:1px solid var(--line)}
+.tv-file:first-of-type{border-top:0}
+.tv-fn{font-weight:600;font-size:.94rem;word-break:break-all}

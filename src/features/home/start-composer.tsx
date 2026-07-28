@@ -33,6 +33,8 @@ export function StartComposer() {
   const [steps, setSteps] = useState<Step[]>([TYPE_STEP]);
   const [answers, setAnswers] = useState<Answers>({});
   const [idx, setIdx] = useState(0);
+  /** When editing an earlier answer, where to return once it is changed. */
+  const [returnTo, setReturnTo] = useState<number | null>(null);
   const [draft, setDraft] = useState("");
   const [stepErr, setStepErr] = useState("");
 
@@ -143,14 +145,33 @@ export function StartComposer() {
     else if (active.id === "purpose") logActivity(`Purpose: ${value}`, "🎯");
     setStepErr("");
     setDraft("");
+
+    // If this was an edit, hand the customer straight back to where they
+    // were rather than making them walk the remaining questions again.
+    if (returnTo !== null) {
+      setIdx(Math.min(returnTo, steps.length - 1));
+      setReturnTo(null);
+      return;
+    }
     setIdx((i) => Math.min(i + 1, steps.length - 1));
-  }, [active, steps.length, logActivity]);
+  }, [active, steps.length, logActivity, returnTo]);
 
   const onOption = useCallback((value: string) => {
     if (!active) return;
-    if (active.id === "type") { pickType(value); return; }
+    if (active.id === "type") {
+      // Re-picking the SAME type must not wipe the answers that follow.
+      if (answers.type === value && returnTo !== null) {
+        setIdx(Math.min(returnTo, steps.length - 1));
+        setReturnTo(null);
+        setStepErr("");
+        return;
+      }
+      setReturnTo(null);   // a real change invalidates the later questions
+      pickType(value);
+      return;
+    }
     answerActive(value);
-  }, [active, pickType, answerActive]);
+  }, [active, pickType, answerActive, answers.type, returnTo, steps.length]);
 
   const onFieldNext = useCallback(() => {
     if (!active) return;
@@ -166,15 +187,26 @@ export function StartComposer() {
     setIdx((i) => Math.min(i + 1, steps.length - 1));
   }, [files, steps.length]);
 
+  /**
+   * Jump back to one answer without losing the others.
+   *
+   * Previously this discarded every answer after the edited step, so
+   * correcting the purpose meant re-entering the certification, deadline
+   * and everything else. Now all answers are kept and the customer is
+   * returned to where they were as soon as the change is made.
+   *
+   * The one exception is the project type, which determines WHICH
+   * questions follow — changing that genuinely does invalidate the rest,
+   * and only then are later answers cleared.
+   */
   const editStep = useCallback((stepIdx: number) => {
     const s = steps[stepIdx];
     if (!s || submitted) return;
-    const kept: Answers = {};
-    steps.slice(0, stepIdx).forEach((st) => { if (answers[st.id] !== undefined) kept[st.id] = answers[st.id]; });
-    setAnswers(s.id === "type" ? {} : kept);
-    setIdx(s.id === "type" ? 0 : stepIdx);
-    setDraft(""); setStepErr("");
-  }, [steps, answers, submitted]);
+    setReturnTo(idx);          // remember where to come back to
+    setIdx(stepIdx);
+    setDraft(String(answers[s.id] ?? ""));
+    setStepErr("");
+  }, [steps, submitted, idx, answers]);
 
   const addFiles = useCallback((role: FileRole, list: FileList) => {
     setFileErr("");
@@ -420,7 +452,7 @@ export function StartComposer() {
                 <div className="ansrow user confirmed" key={r.key}>
                   <div className="av">✓</div>
                   <div className="content">
-                    <div className="bub"><b>{r.label}:</b> {r.value}</div>
+                    <div className="bub"><b>{r.label}</b><span className="val">{r.value}</span></div>
                     <button type="button" className="edit" onClick={() => editStep(r.stepIdx)}>Edit</button>
                   </div>
                 </div>

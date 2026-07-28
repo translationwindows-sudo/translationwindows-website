@@ -20,6 +20,7 @@ interface ProjectStatus {
   fileCount: number;
   nextUpdate: string | null;
   reviewHours: string;
+  deliverables?: { id: number; name: string; size: number }[];
 }
 
 /** The four operational stages Phase 1C can report. */
@@ -111,6 +112,27 @@ export function TrackView({ token }: { token: string }) {
         <div className="tv-next">
           <p className="tv-next-t">What happens next</p>
           <p className="tv-next-b">{project.nextUpdate}</p>
+        </div>
+      )}
+
+      {project.deliverables && project.deliverables.length > 0 && (
+        <div className="tv-card tv-deliver">
+          <h2 className="tv-h2">Your completed translation</h2>
+          {project.deliverables.map((d) => (
+            <div className="tv-file" key={d.id}>
+              <span className="tv-fn">{d.name}</span>
+              <a
+                className="tv-btn"
+                href={`/api/deliverable?token=${encodeURIComponent(token)}&file=${d.id}`}
+              >
+                Download
+              </a>
+            </div>
+          ))}
+          <p className="tv-muted" style={{ marginTop: 12, fontSize: ".86rem" }}>
+            If anything needs adjusting, reply to your confirmation email and your
+            Project Coordinator will take care of it.
+          </p>
         </div>
       )}
 
