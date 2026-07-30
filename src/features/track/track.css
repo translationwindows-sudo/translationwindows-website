@@ -40,3 +40,71 @@
 .tv-file{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 0;border-top:1px solid var(--line)}
 .tv-file:first-of-type{border-top:0}
 .tv-fn{font-weight:600;font-size:.94rem;word-break:break-all}
+
+/* ═══ Portal: quotation, invoice, payment ═══ */
+.tv-done{background:var(--ok-soft,#EAF7EF);border:1px solid #B8E3C9;color:#0B6E3E;
+  border-radius:14px;padding:13px 18px;margin-bottom:16px;font-size:.92rem}
+.tv-problem{background:#FEF1F1;border:1px solid #F8C9C9;color:#B91C1C;
+  border-radius:14px;padding:13px 18px;margin-bottom:16px;font-size:.92rem}
+
+.tv-quote{border-color:var(--accent)}
+.tv-lines{width:100%;border-collapse:collapse;margin-top:4px}
+.tv-lines td{padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.tv-lines td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tv-lines tr:last-child td{border-bottom:0}
+.tv-lines .tv-total td{font-family:var(--font-display);font-weight:700;font-size:1.15rem;
+  padding-top:12px;border-top:2px solid var(--char);border-bottom:0}
+
+.tv-decide{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+.tv-decide label{display:block;font-size:.82rem;font-weight:600;color:var(--soft);margin-bottom:6px}
+.tv-decide textarea{width:100%;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.9rem;background:var(--paper);resize:vertical;margin-bottom:12px}
+.tv-decide textarea:focus{outline:none;border-color:var(--accent)}
+.tv-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.tv-status-note{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:.9rem;color:var(--soft)}
+
+.tv-pay{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+.tv-method{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:var(--paper)}
+.tv-mname{font-family:var(--font-display);font-weight:600;font-size:.94rem}
+.tv-mnote{font-size:.8rem;color:var(--soft);margin-top:1px}
+.tv-claim{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.tv-claim label{display:block;font-size:.82rem;font-weight:600;color:var(--soft);margin-bottom:6px}
+.tv-claimrow{display:flex;gap:8px}
+.tv-claimrow input{flex:1;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.9rem;background:var(--paper)}
+.tv-claimrow input:focus{outline:none;border-color:var(--accent)}
+@media(max-width:520px){.tv-method{flex-direction:column;align-items:flex-start}.tv-claimrow{flex-direction:column}}
+
+/* ═══ Portal: notice, quotation, payment ═══ */
+.tv-notice{background:var(--accentsoft);border:1.5px solid var(--accent);border-radius:14px;
+  padding:14px 18px;margin-bottom:16px;font-size:.94rem;line-height:1.55}
+.tv-sm{font-size:.84rem}
+.tv-remarks{margin:12px 0 0;padding-top:12px;border-top:1px solid var(--line);
+  font-size:.9rem;color:var(--soft);line-height:1.6}
+
+.tv-quote{border-color:var(--accent)}
+.tv-lines{width:100%;border-collapse:collapse;margin:4px 0 14px}
+.tv-lines td{padding:8px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.tv-lines td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tv-lines tr:last-child td{border-bottom:0}
+.tv-lines .tv-total td{font-family:var(--font-display);font-weight:700;font-size:1.25rem;
+  padding-top:12px;border-top:2px solid var(--char);border-bottom:0}
+.tv-comment{width:100%;margin:14px 0 12px;padding:11px 14px;border:1.5px solid var(--line);
+  border-radius:12px;font:inherit;font-size:.92rem;min-height:76px;resize:vertical;background:var(--paper)}
+.tv-comment:focus{outline:none;border-color:var(--accent)}
+.tv-status-line{margin:10px 0 0;font-size:.92rem;color:var(--soft)}
+.tv-btn.ok{background:var(--ok)}
+
+.tv-pay{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.tv-method{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--line)}
+.tv-method:last-of-type{border-bottom:0}
+.tv-mlabel{font-family:var(--font-display);font-weight:600;font-size:.95rem}
+.tv-declare{margin-top:14px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.tv-declare label{display:block;font-size:.8rem;font-weight:600;color:var(--soft);margin-bottom:6px}
+.tv-declare input{width:100%;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.92rem}
+.tv-declare input:focus{outline:none;border-color:var(--accent)}
+.tv-btn:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:560px){.tv-method{flex-direction:column;align-items:stretch;gap:8px}}

@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const upstream = await fetch(`${API_BASE}/track.php?token=${encodeURIComponent(token)}`, {
+    const upstream = await fetch(`${API_BASE}/portal.php?token=${encodeURIComponent(token)}`, {
       cache: "no-store",
       signal: AbortSignal.timeout(15_000),
     });

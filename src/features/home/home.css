@@ -534,3 +534,83 @@
 .twh .tracklink{font-size:.84rem;color:#B9B9B4;margin-top:10px}
 .twh .tracklink a{color:#fff;text-decoration:underline}
 .twh .tracklink button{background:none;border:0;color:#fff;text-decoration:underline;cursor:pointer;font-size:.84rem;padding:0}
+
+/* ═══════════════════════════════════════════════════════════════
+   Workspace review — contrast, edit affordances, progress, polish
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── item 3 · pencil-icon Edit, attached to its answer ── */
+.twh .ansrow.confirmed .edit{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.78rem;font-weight:600;line-height:1;
+  padding:5px 11px;border-radius:8px;
+  color:var(--char-soft);background:transparent;
+  border:1px solid transparent;cursor:pointer;
+  transition:color .15s,background .15s,border-color .15s;
+}
+.twh .ansrow.confirmed .edit svg{flex:none;opacity:.75}
+.twh .ansrow.confirmed .edit:hover{
+  color:var(--accent);background:var(--accent-soft);border-color:#F3CFC4;
+}
+.twh .ansrow.confirmed .edit:hover svg{opacity:1}
+.twh .ansrow.confirmed .edit:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;
+}
+
+/* ── item 1 · contrast, held to WCAG AA ──
+   Values are near-black on a pale panel; labels are mid-grey and
+   still clear the 4.5:1 threshold. Nothing relies on selection. */
+.twh .ansrow.confirmed .bub{color:#141419}
+.twh .ansrow.confirmed .bub .val{color:#141419;font-weight:600}
+.twh .ansrow.confirmed .bub b{color:#5A5A63}
+.twh .qi-list li{color:#3A3A42}
+.twh .qi-list li.on{color:#141419}
+.twh .qi-stat .val{color:#141419}
+.twh .qi-stat .lab{color:#5A5A63}
+.twh .sub-val{font-size:.78rem;color:#5A5A63;margin:2px 0 0}
+.twh .ok-val{color:#0F7A43!important}
+
+/* ── item 7 · step trail ── */
+.twh .steptrail{
+  list-style:none;display:flex;flex-wrap:wrap;gap:4px 14px;
+  margin:10px 0 0;padding:0;
+}
+.twh .steptrail li{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.78rem;font-weight:500;color:#8B8B93;white-space:nowrap;
+}
+.twh .steptrail .sm-i{font-size:.7rem;line-height:1;width:11px;text-align:center}
+.twh .steptrail li.done{color:#0F7A43}
+.twh .steptrail li.done .sm-i{font-weight:700}
+.twh .steptrail li.cur{color:var(--accent);font-weight:700}
+.twh .steptrail li.todo{color:#A8A8B0}
+@media (max-width:640px){
+  .twh .steptrail li.todo{display:none}   /* keep it short on a phone */
+}
+
+/* ── items 5, 10 · document card that reflects reality ── */
+.twh .upload-sum{border-left:3px solid #0F7A43;padding-left:12px}
+.twh .filebin .fhead{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:9px;margin-bottom:4px;border-bottom:1px solid var(--line);
+}
+.twh .filebin .fhead .ftitle{font-family:var(--font-display);font-weight:600;font-size:.9rem;color:#141419}
+.twh .filebin .fhead .fcount{
+  font-size:.76rem;font-weight:700;color:#0F7A43;
+  background:#EAF7EF;border:1px solid #C6E7D4;border-radius:100px;padding:2px 9px;
+}
+.twh .filebin .fhead .fcount.none{color:#5A5A63;background:var(--paper);border-color:var(--line)}
+.twh .frow .fn{color:#141419;font-weight:600}
+.twh .frow .fmeta{color:#5A5A63}
+
+/* ── item 9 · spacing, alignment, rhythm ── */
+.twh .qcard{padding:22px 24px}
+.twh .ansrow{margin-bottom:10px}
+.twh .qi-list li{padding:5px 0;line-height:1.5}
+.twh .qi-stat{padding:11px 0}
+.twh .qi-stat + .qi-stat{border-top:1px solid var(--line)}
+.twh .qfield{margin-top:14px}
+.twh .opt{padding:11px 16px}
+@media (max-width:560px){
+  .twh .qcard{padding:16px}
+}

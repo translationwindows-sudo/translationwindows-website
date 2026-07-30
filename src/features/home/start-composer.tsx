@@ -9,7 +9,7 @@ import {
   FIELD_LABELS, FLOWS, GROUP_ORDER, SERVICE_LABEL, TURNAROUND, TYPE_STEP, type Step,
 } from "./flow";
 import {
-  FILE_BINS, STATUS_STAGES, newRef, relTime,
+  FILE_BINS, STATUS_STAGES, fmtSize, newRef, relTime,
   type ActivityEvent, type FileRole, type ProjectFile, type ProjectStatus,
 } from "./project";
 import { Reveal } from "./reveal";
@@ -398,6 +398,10 @@ export function StartComposer() {
 
   const qCountLabel = active?.kind === "review" ? "Final step" : `Step ${idx + 1} of ${steps.length}`;
 
+  /* Upload summary — size and recency, so a customer can see their files landed. */
+  const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+  const lastUpload = files.length > 0 ? Math.max(...files.map((f) => f.uploadedAt)) : null;
+
   /* "What happens next?" — always answered, at every stage of the journey */
   const nextStepText = submitted
     ? (status === "quote_ready"
@@ -453,7 +457,7 @@ export function StartComposer() {
                   <div className="av">✓</div>
                   <div className="content">
                     <div className="bub"><b>{r.label}</b><span className="val">{r.value}</span></div>
-                    <button type="button" className="edit" onClick={() => editStep(r.stepIdx)}>Edit</button>
+                    <button type="button" className="edit" onClick={() => editStep(r.stepIdx)} aria-label={`Edit ${r.label}`}><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M11.6 1.9a1.3 1.3 0 0 1 1.9 0l.6.6a1.3 1.3 0 0 1 0 1.9l-7.5 7.5-2.9.7.7-2.9 7.2-7.8Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/></svg>Edit</button>
                   </div>
                 </div>
               ))}
@@ -463,6 +467,14 @@ export function StartComposer() {
                   {onUploadStep ? (
                     <>
                       <div className="qcount">{qCountLabel}</div>
+                      <ol className="steptrail" aria-label="Progress">
+                        {steps.map((st, i) => (
+                          <li key={st.id} className={i < idx ? "done" : i === idx ? "cur" : "todo"}>
+                            <span className="sm-i" aria-hidden="true">{i < idx ? "✓" : i === idx ? "▶" : "○"}</span>
+                            <span className="sm-t">{FIELD_LABELS[st.id] ?? st.id}</span>
+                          </li>
+                        ))}
+                      </ol>
                       <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Project Coordinator</span>{uploadLeadText}</span></div>
                       {active?.why && <p className="qwhy">{active.why}</p>}
 
@@ -741,10 +753,32 @@ export function StartComposer() {
                 {steps.some((s) => s.id === "purpose") && (
                   <li className={answers.purpose ? "on" : ""}><b>{answers.purpose ? "✓" : "—"}</b> Purpose: {answers.purpose ?? "not yet set"}</li>
                 )}
-                <li className={docCount > 0 ? "on" : ""}><b>{docCount > 0 ? "✓" : "—"}</b> Files: {docCount > 0 ? `${docCount} uploaded` : "none yet"}</li>
+                {steps.some((s) => s.id === "cert") && (
+                  <li className={answers.cert ? "on" : ""}><b>{answers.cert ? "✓" : "—"}</b> Certification: {answers.cert ?? "not yet set"}</li>
+                )}
+                {steps.some((s) => s.id === "formatting") && (
+                  <li className={answers.formatting ? "on" : ""}><b>{answers.formatting ? "✓" : "—"}</b> Formatting: {answers.formatting ?? "not yet set"}</li>
+                )}
+                <li className={answers.deadline ? "on" : ""}><b>{answers.deadline ? "✓" : "—"}</b> Deadline: {answers.deadline ?? "not yet set"}</li>
+                <li className={docCount > 0 ? "on" : ""}>
+                  <b>{docCount > 0 ? "✓" : "—"}</b>{" "}
+                  {docCount > 0
+                    ? `${docCount} document${docCount === 1 ? "" : "s"} uploaded`
+                    : "No documents uploaded"}
+                </li>
               </ul>
             )}
-            {answers.deadline && <div className="qi-stat"><p className="lab">Deadline</p><p className="val" style={{ fontSize: "1rem" }}>{answers.deadline}</p></div>}
+
+            {/* Upload summary — proof the files actually arrived. */}
+            {docCount > 0 && (
+              <div className="qi-stat upload-sum">
+                <p className="lab">Files received</p>
+                <p className="val" style={{ fontSize: "1rem" }}>
+                  {docCount} document{docCount === 1 ? "" : "s"} · {fmtSize(totalBytes)}
+                </p>
+                {lastUpload && <p className="sub-val">Last upload {relTime(lastUpload)}</p>}
+              </div>
+            )}
             {turnaround && <div className="qi-stat"><p className="lab">Estimated turnaround</p><p className="val">{turnaround}</p></div>}
             <div className="qi-stat"><p className="lab">Current status</p><p className="val" style={{ fontSize: "1rem" }}>{sidebarStatus}</p></div>
             <div className="qi-stat"><p className="lab">Next step</p><p className="val" style={{ fontSize: ".95rem", fontWeight: 500 }}>{nextStepText}</p></div>

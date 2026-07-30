@@ -38,10 +38,16 @@ export function FileBin({
 
   return (
     <div className="filebin">
-      <h4>
-        <span>{icon}</span> {label}
-        {files.length > 0 && <span className="cnt">· {files.length}</span>}
-      </h4>
+      {/* Header states plainly what has been received — the instruction
+          to upload disappears once files exist. */}
+      <div className="fhead">
+        <span className="ftitle"><span aria-hidden="true">{icon}</span> {label}</span>
+        <span className={`fcount ${files.length === 0 ? "none" : ""}`}>
+          {files.length === 0
+            ? "None yet"
+            : `✓ ${files.length} uploaded · ${fmtSize(files.reduce((t, f) => t + f.size, 0))}`}
+        </span>
+      </div>
 
       {files.map((f) => (
         <div className="frow" key={f.id}>
