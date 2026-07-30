@@ -398,6 +398,18 @@ export function StartComposer() {
 
   const qCountLabel = active?.kind === "review" ? "Final step" : `Step ${idx + 1} of ${steps.length}`;
 
+  /* One progress trail, used by every question branch (spec item 7). */
+  const stepTrail = (
+    <ol className="steptrail" aria-label="Progress">
+      {steps.map((st, i) => (
+        <li key={st.id} className={i < idx ? "done" : i === idx ? "cur" : "todo"}>
+          <span className="sm-i" aria-hidden="true">{i < idx ? "✓" : i === idx ? "▶" : "○"}</span>
+          <span className="sm-t">{FIELD_LABELS[st.id] ?? st.id}</span>
+        </li>
+      ))}
+    </ol>
+  );
+
   /* Upload summary — size and recency, so a customer can see their files landed. */
   const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
   const lastUpload = files.length > 0 ? Math.max(...files.map((f) => f.uploadedAt)) : null;
@@ -467,14 +479,7 @@ export function StartComposer() {
                   {onUploadStep ? (
                     <>
                       <div className="qcount">{qCountLabel}</div>
-                      <ol className="steptrail" aria-label="Progress">
-                        {steps.map((st, i) => (
-                          <li key={st.id} className={i < idx ? "done" : i === idx ? "cur" : "todo"}>
-                            <span className="sm-i" aria-hidden="true">{i < idx ? "✓" : i === idx ? "▶" : "○"}</span>
-                            <span className="sm-t">{FIELD_LABELS[st.id] ?? st.id}</span>
-                          </li>
-                        ))}
-                      </ol>
+                      {stepTrail}
                       <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Project Coordinator</span>{uploadLeadText}</span></div>
                       {active?.why && <p className="qwhy">{active.why}</p>}
 
@@ -523,6 +528,7 @@ export function StartComposer() {
               {!submitted && active && active.kind !== "upload" && (
                 <div className="qcard-a" ref={activeRef}>
                   <div className="qcount">{qCountLabel}</div>
+                      {stepTrail}
                   <div className="qh"><span className="av">🧑‍💼</span><span><span className="qwho">Project Coordinator</span>{active.lead ? `${active.lead} ` : ""}{active.q}</span></div>
                   {active.why && <p className="qwhy">{active.why}</p>}
 
