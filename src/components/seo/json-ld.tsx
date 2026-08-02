@@ -1,31 +1,32 @@
-import { siteConfig } from "@/config/site";
+import {
+  graph, localBusinessSchema, organizationSchema, websiteSchema, jsonLd,
+} from "@/lib/schema";
 
-/** Organization structured data, rendered once in the root layout. */
-export function OrganizationJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: siteConfig.name,
-    legalName: siteConfig.legalName,
-    url: siteConfig.url,
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
-    foundingDate: String(siteConfig.foundingYear),
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteConfig.address.street,
-      addressLocality: siteConfig.address.city,
-      addressRegion: siteConfig.address.region,
-      postalCode: siteConfig.address.postal,
-      addressCountry: siteConfig.address.country,
-    },
-    areaServed: "Worldwide",
-    description: siteConfig.description,
-  };
+/**
+ * Renders a schema.org graph as JSON-LD.
+ * One instance per page, containing every entity that page describes.
+ */
+export function JsonLd({ data }: { data: object }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // Built server-side from our own data and escaped in jsonLd();
+      // no user input reaches it.
+      dangerouslySetInnerHTML={{ __html: jsonLd(data) }}
+    />
+  );
+}
+
+/**
+ * Site-wide identity, emitted once from the root layout: who the company
+ * is, where it is, and what site this is. Page-level entities (Service,
+ * FAQ, Article, Breadcrumb) reference these by @id rather than repeating
+ * them.
+ */
+export function OrganizationJsonLd() {
+  return (
+    <JsonLd
+      data={graph(organizationSchema(), localBusinessSchema(), websiteSchema())}
     />
   );
 }

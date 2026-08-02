@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
 import { FaqAccordion } from "@/components/pillar/faq-accordion";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, faqSchema, graph } from "@/lib/schema";
 import { Crumb, CtaBand, PwHero, TopicGrid, TopicSections, type TopicCard, type TopicDetail } from "@/components/pillar/pillar-parts";
 import "@/styles/pillar.css";
 
@@ -46,6 +48,15 @@ const faqs = [
 export default function ResourcesPage() {
   return (
     <div className="pw" id="top">
+      <JsonLd
+        data={graph(
+          faqSchema(faqs, "/resources"),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Resources", path: "/resources" },
+          ]),
+        )}
+      />
       <Container>
         <Crumb label="Resources" />
         <PwHero eyebrow="Knowledge Center" title="Learn before you spend.">

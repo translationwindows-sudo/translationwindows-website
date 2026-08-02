@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
 import { FaqAccordion } from "@/components/pillar/faq-accordion";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, faqSchema, graph } from "@/lib/schema";
 import { Crumb, CtaBand, PwHero } from "@/components/pillar/pillar-parts";
 import "@/styles/pillar.css";
 
@@ -28,6 +30,15 @@ const faqs = [
 export default function QuotePage() {
   return (
     <div className="pw" id="top">
+      <JsonLd
+        data={graph(
+          faqSchema(faqs, "/quote"),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Quotations", path: "/quote" },
+          ]),
+        )}
+      />
       <Container>
         <Crumb label="AI Quote Assistant" />
         <PwHero eyebrow="Platform · AI Quote Assistant" title="Quotes prepared by AI. Approved by people.">

@@ -12,6 +12,8 @@ import {
   FILE_BINS, STATUS_STAGES, fmtSize, newRef, relTime,
   type ActivityEvent, type FileRole, type ProjectFile, type ProjectStatus,
 } from "./project";
+import { trackEvent } from "@/components/seo/analytics";
+
 import { Reveal } from "./reveal";
 
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -308,6 +310,14 @@ export function StartComposer() {
         setSending(false);
         return;
       }
+
+      // A submission is the only conversion worth measuring: it means a
+      // real project exists in the database, not that someone clicked.
+      trackEvent("project_submitted", {
+        reference: data.reference,
+        service: answers.type ?? "",
+        files: files.length,
+      });
 
       // Success — adopt the SERVER's reference and tracking token.
       setRef(data.reference);

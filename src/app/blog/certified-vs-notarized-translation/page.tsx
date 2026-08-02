@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { Article, Callout, H2, P, UL } from "@/components/pillar/article";
 import "@/styles/pillar.css";
+import { JsonLd } from "@/components/seo/json-ld";
+import { articleSchema, breadcrumbSchema, graph } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Certified vs. Notarized Translation: What's the Difference?",
