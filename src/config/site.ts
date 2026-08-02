@@ -9,7 +9,15 @@ export const siteConfig = {
   tagline: "Every language passes through one window",
   description:
     "Certified document translation, transcription, subtitling and localization in every language — prepared to meet the requirements of USCIS, courts and universities.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://translationwindows.com",
+  /**
+   * The canonical origin. MUST match the host actually served, or Google
+   * receives conflicting signals — canonical tags pointing one way while
+   * the site responds on another suppresses indexing.
+   *
+   * The site resolves on www, so www is canonical. Override with
+   * NEXT_PUBLIC_SITE_URL if that ever changes.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.translationwindows.com",
   phone: "+12812053932",
   phoneDisplay: "(281) 205-3932",
   email: "sales@translationwindows.com",
