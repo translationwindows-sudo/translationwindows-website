@@ -152,3 +152,59 @@
 .pw .art-end{margin-top:52px;padding:32px;background:var(--paper);border:1px solid var(--line);border-radius:20px;text-align:center}
 .pw .art-end h3{font-size:1.2rem;font-weight:700;margin-bottom:10px}
 .pw .art-end p{font-size:.95rem;color:var(--char-soft);max-width:34em;margin:0 auto 20px;line-height:1.6}
+
+/* ═══ Service pages — comparison, documents, steps, tables, related ═══ */
+
+.pw .pw-lead{font-size:1.06rem;line-height:1.72;color:var(--char);margin-bottom:16px}
+.pw .pw-list{margin:14px 0 0;padding-left:0;list-style:none}
+.pw .pw-list li{position:relative;padding-left:20px;margin-bottom:12px;line-height:1.68}
+.pw .pw-list li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;
+  border-radius:2px;background:var(--accent)}
+
+/* certified vs notarized */
+.pw .pw-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.pw .pw-compare-col{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.pw .pw-compare-col h3{font-family:var(--font-display);font-weight:700;font-size:1rem;margin:0 0 8px}
+.pw .pw-compare-col p{margin:0;font-size:.94rem;line-height:1.65;color:var(--char-soft)}
+.pw .pw-compare-col strong{color:var(--char)}
+
+/* document list */
+.pw .pw-doclist{display:grid;grid-template-columns:1fr 1fr;gap:2px 26px;margin-top:16px}
+.pw .pw-docitem{padding:13px 0;border-top:1px solid var(--line)}
+.pw .pw-docname{font-family:var(--font-display);font-weight:600;font-size:.98rem;margin:0 0 3px}
+.pw .pw-docname a{color:var(--accent);text-decoration:none}
+.pw .pw-docname a:hover{text-decoration:underline}
+.pw .pw-docnote{margin:0;font-size:.88rem;color:var(--char-soft);line-height:1.6}
+
+/* numbered process */
+.pw .pw-steps{list-style:none;margin:18px 0 0;padding:0;counter-reset:none}
+.pw .pw-steps li{display:flex;gap:16px;padding:15px 0;border-top:1px solid var(--line)}
+.pw .pw-steps li:first-child{border-top:0;padding-top:0}
+.pw .pw-stepn{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);
+  color:var(--accent);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:.86rem;border:1px solid #F3CFC4}
+.pw .pw-steps h3{font-family:var(--font-display);font-weight:600;font-size:1rem;margin:2px 0 4px}
+.pw .pw-steps p{margin:0;color:var(--char-soft);font-size:.94rem;line-height:1.62}
+
+/* turnaround table */
+.pw .pw-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.95rem}
+.pw .pw-table th{text-align:left;font-family:var(--font-display);font-weight:600;font-size:.78rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--char-soft);
+  padding:10px 14px;background:var(--paper);border-bottom:1px solid var(--line)}
+.pw .pw-table td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+.pw .pw-table td:last-child{font-weight:600;white-space:nowrap}
+.pw .pw-tnote{display:block;font-size:.85rem;color:var(--char-soft);margin-top:3px;font-weight:400}
+.pw .pw-tsmall{font-size:.88rem;color:var(--char-soft);margin-top:12px}
+
+/* related services */
+.pw .pw-related{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.pw .pw-relcard{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:18px 20px;text-decoration:none;color:inherit;transition:border-color .18s,transform .18s}
+.pw .pw-relcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pw .pw-relcard h3{font-family:var(--font-display);font-weight:600;font-size:1rem;margin:0 0 5px;color:var(--accent)}
+.pw .pw-relcard p{margin:0;font-size:.9rem;color:var(--char-soft);line-height:1.6}
+
+@media (max-width:720px){
+  .pw .pw-compare,.pw .pw-doclist,.pw .pw-related{grid-template-columns:1fr}
+  .pw .pw-table td:last-child{white-space:normal}
+}

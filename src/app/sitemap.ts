@@ -21,6 +21,9 @@ const routes: Entry[] = [
   // ── the site itself ──
   { path: "", priority: 1.0, changeFrequency: "weekly" },
 
+  // ── service pages: highest commercial intent ──
+  { path: "/services/certified-translation", priority: 0.95, changeFrequency: "monthly" },
+
   // ── commercial pages: what people search for and buy ──
   { path: "/solutions", priority: 0.9, changeFrequency: "monthly" },
   { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
