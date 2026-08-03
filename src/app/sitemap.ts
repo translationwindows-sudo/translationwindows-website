@@ -23,6 +23,11 @@ const routes: Entry[] = [
 
   // ── service pages: highest commercial intent ──
   { path: "/services/certified-translation", priority: 0.95, changeFrequency: "monthly" },
+  { path: "/services/uscis-translation", priority: 0.95, changeFrequency: "monthly" },
+  { path: "/services/birth-certificate-translation", priority: 0.95, changeFrequency: "monthly" },
+  { path: "/services/legal-translation", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/services/medical-translation", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/services/website-localization", priority: 0.9, changeFrequency: "monthly" },
 
   // ── commercial pages: what people search for and buy ──
   { path: "/solutions", priority: 0.9, changeFrequency: "monthly" },
