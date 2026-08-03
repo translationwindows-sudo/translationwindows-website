@@ -37,7 +37,7 @@ export function customerConfirmationEmail(data: ProjectEmailData) {
       "Thank you for choosing Translation Windows.",
       "",
       "Translation Windows",
-      "Transinformatic LLC · Houston, Texas",
+      "Alpha Online Services LLC · Houston, Texas",
     ].join("\n"),
   };
 }

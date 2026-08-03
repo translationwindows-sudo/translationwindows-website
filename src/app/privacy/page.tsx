@@ -7,7 +7,7 @@ import "@/styles/pillar.css";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Translation Windows",
-  description: "How Translation Windows (Transinformatic LLC) collects, uses, stores and protects your information and documents.",
+  description: "How Translation Windows (Alpha Online Services LLC) collects, uses, stores and protects your information and documents.",
 };
 
 export default function PrivacyPage() {

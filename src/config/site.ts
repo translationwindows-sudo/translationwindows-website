@@ -5,7 +5,7 @@
  */
 export const siteConfig = {
   name: "Translation Windows",
-  legalName: "Transinformatic LLC",
+  legalName: "Alpha Online Services LLC",
   tagline: "Every language passes through one window",
   description:
     "Certified document translation, transcription, subtitling and localization in every language — prepared to meet the requirements of USCIS, courts and universities.",
@@ -23,10 +23,10 @@ export const siteConfig = {
   email: "sales@translationwindows.com",
   whatsapp: "https://wa.me/12812053932",
   address: {
-    street: "19255 Park Row #205",
-    city: "Houston",
+    street: "1219 Hidden Canyon Rd",
+    city: "Katy",
     region: "TX",
-    postal: "77084",
+    postal: "77450",
     country: "US",
   },
   foundingYear: 2017,

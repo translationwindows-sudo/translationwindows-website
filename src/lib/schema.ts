@@ -22,7 +22,7 @@ export function organizationSchema() {
     "@type": "ProfessionalService",
     "@id": ORG_ID,
     name: siteConfig.name,
-    legalName: "Transinformatic LLC",
+    legalName: "Alpha Online Services LLC",
     url: BASE,
     logo: `${BASE}/icon.png`,
     image: `${BASE}/opengraph-image`,
@@ -35,15 +35,27 @@ export function organizationSchema() {
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "19255 Park Row, Suite 205",
-      addressLocality: "Houston",
+      streetAddress: "1219 Hidden Canyon Rd",
+      addressLocality: "Katy",
       addressRegion: "TX",
-      postalCode: "77084",
+      postalCode: "77450",
       addressCountry: "US",
     },
+    /**
+     * The postal address is in Katy (ZIP 77450) because that is where post
+     * is received and where the Business Profile is verified. The service
+     * area is stated separately and includes Houston, of which Katy is part.
+     * Putting Houston in addressLocality would contradict the postcode.
+     */
     areaServed: [
       { "@type": "Country", name: "United States" },
       { "@type": "State", name: "Texas" },
+      { "@type": "City", name: "Houston" },
+      { "@type": "City", name: "Katy" },
+      { "@type": "City", name: "Sugar Land" },
+      { "@type": "City", name: "Dallas" },
+      { "@type": "City", name: "Austin" },
+      { "@type": "City", name: "San Antonio" },
     ],
     availableLanguage: [
       "English", "Spanish", "French", "German", "Italian", "Portuguese",
@@ -73,12 +85,17 @@ export function localBusinessSchema() {
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "19255 Park Row, Suite 205",
-      addressLocality: "Houston",
+      streetAddress: "1219 Hidden Canyon Rd",
+      addressLocality: "Katy",
       addressRegion: "TX",
-      postalCode: "77084",
+      postalCode: "77450",
       addressCountry: "US",
     },
+    areaServed: [
+      { "@type": "City", name: "Houston" },
+      { "@type": "City", name: "Katy" },
+      { "@type": "State", name: "Texas" },
+    ],
     openingHoursSpecification: [{
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
