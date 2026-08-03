@@ -28,6 +28,16 @@ const routes: Entry[] = [
   { path: "/services/legal-translation", priority: 0.9, changeFrequency: "monthly" },
   { path: "/services/medical-translation", priority: 0.9, changeFrequency: "monthly" },
   { path: "/services/website-localization", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/services/marriage-certificate-translation", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/services/diploma-translation", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/services/transcript-translation", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/services/technical-translation", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/services/business-translation", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/services/subtitle-translation", priority: 0.85, changeFrequency: "monthly" },
+
+  // ── industry pages ──
+  { path: "/industries/law-firms", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/industries/healthcare", priority: 0.85, changeFrequency: "monthly" },
 
   // ── commercial pages: what people search for and buy ──
   { path: "/solutions", priority: 0.9, changeFrequency: "monthly" },
