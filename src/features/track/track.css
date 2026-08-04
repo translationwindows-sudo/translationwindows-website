@@ -108,3 +108,25 @@
 .tv-declare input:focus{outline:none;border-color:var(--accent)}
 .tv-btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:560px){.tv-method{flex-direction:column;align-items:stretch;gap:8px}}
+
+/* ── PayPal checkout ── */
+.tv-paywrap{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.tv-paypal{min-height:48px}
+.tv-payerr{background:var(--accentsoft);border:1px solid var(--accent);border-radius:12px;
+  padding:12px 14px;font-size:.9rem;line-height:1.55;color:var(--char);margin:0 0 10px}
+
+/* ── decisions waiting on the customer, stated up front ── */
+.tv-callout{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  background:var(--accentsoft);border:1px solid var(--accent);
+  border-left-width:5px;border-radius:16px;padding:18px 22px;margin-bottom:18px;
+}
+.tv-callout.pay{background:#EFF7FD;border-color:#0B7BC4}
+.tv-callout-body{flex:1;min-width:200px}
+.tv-callout-k{
+  font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 5px;
+}
+.tv-callout.pay .tv-callout-k{color:#0A5E96}
+.tv-callout-t{font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin:0 0 4px;color:var(--char)}
+.tv-callout-s{margin:0;font-size:.88rem;color:var(--char-soft);line-height:1.5}

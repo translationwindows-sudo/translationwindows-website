@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import { siteConfig } from "@/config/site";
 
+import { PayPalButton } from "./paypal-button";
+
 import "./track.css";
 
 /* ── shapes returned by /api/portal ─────────────────────────────────── */
@@ -47,6 +49,7 @@ export function TrackView({ token }: { token: string }) {
   const [comment, setComment] = useState("");
   const [declaring, setDeclaring] = useState(false);
   const [payRef, setPayRef] = useState("");
+  const [paying, setPaying] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -225,14 +228,34 @@ export function TrackView({ token }: { token: string }) {
                       I have paid
                     </button>
                   ) : inv.paypalReady ? (
-                    <a className="tv-btn" href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">
-                      Continue
-                    </a>
+                    <button
+                      type="button"
+                      className="tv-btn"
+                      onClick={() => setPaying(paying === m.key ? null : m.key)}
+                    >
+                      {paying === m.key ? "Close" : "Pay now"}
+                    </button>
                   ) : (
-                    <span className="tv-muted tv-sm">Ask us for a link</span>
+                    <span className="tv-muted tv-sm">Contact us for a payment link</span>
                   )}
                 </div>
               ))}
+
+              {paying && inv.paypalReady && inv.paypalClientId && (
+                <div className="tv-paywrap">
+                  <PayPalButton
+                    clientId={inv.paypalClientId}
+                    amount={inv.outstanding}
+                    currency={inv.currency}
+                    token={token}
+                    invoiceNumber={inv.number}
+                    onPaid={(msg) => { setPaying(null); setNotice(msg); void load(); }}
+                  />
+                  <p className="tv-muted tv-sm" style={{ marginTop: 10 }}>
+                    Payments are handled by PayPal. We never see your card details.
+                  </p>
+                </div>
+              )}
 
               {declaring && (
                 <div className="tv-declare">
