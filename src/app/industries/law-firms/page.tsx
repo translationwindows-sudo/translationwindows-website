@@ -122,7 +122,7 @@ export default function Page() {
         { h: "Legal Translation", p: "The service in detail: contracts, filings and evidence.", href: "/services/legal-translation" },
         { h: "Certified Translation", p: "When a court or tribunal requires certification.", href: "/services/certified-translation" },
         { h: "Medical Translation", p: "Clinical records in personal injury and negligence work.", href: "/services/medical-translation" },
-        { h: "How we work", p: "Coordination, secure handling and project tracking.", href: "/platform" },
+        { h: "Court requirements reference", p: "Certification and notarization rules across US courts and agencies.", href: "/resources/court-translation-requirements" },
       ]}
       faqs={faqs}
       cta={{

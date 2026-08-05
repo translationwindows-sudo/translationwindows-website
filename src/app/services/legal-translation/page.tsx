@@ -226,9 +226,9 @@ export default function Page() {
               <h3>Medical Translation</h3>
               <p>Clinical records for personal injury and medical negligence matters.</p>
             </Link>
-            <Link className="pw-relcard" href="/industries">
-              <h3>Industries we serve</h3>
-              <p>Law, healthcare, technology, manufacturing and education.</p>
+            <Link className="pw-relcard" href="/resources/court-translation-requirements">
+              <h3>Court requirements reference</h3>
+              <p>Which courts require certification, which require notarization, and where to verify.</p>
             </Link>
           </div>
         </div>

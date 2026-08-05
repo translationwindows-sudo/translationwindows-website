@@ -38,6 +38,10 @@ const routes: Entry[] = [
   // ── industry pages ──
   { path: "/industries/law-firms", priority: 0.85, changeFrequency: "monthly" },
   { path: "/industries/healthcare", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/industries/immigration-law", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/industries/medical-devices", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/industries/technology", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/industries/universities", priority: 0.85, changeFrequency: "monthly" },
 
   // ── commercial pages: what people search for and buy ──
   { path: "/solutions", priority: 0.9, changeFrequency: "monthly" },
@@ -52,6 +56,9 @@ const routes: Entry[] = [
   { path: "/blog/certified-vs-notarized-translation", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog/choosing-a-translation-company", priority: 0.7, changeFrequency: "monthly" },
   { path: "/resources", priority: 0.6, changeFrequency: "monthly" },
+  // A free reference built to be cited by legal practices — the kind of page
+  // that earns links rather than needing them bought.
+  { path: "/resources/court-translation-requirements", priority: 0.9, changeFrequency: "monthly" },
 
   // ── company ──
   { path: "/about", priority: 0.6, changeFrequency: "yearly" },
