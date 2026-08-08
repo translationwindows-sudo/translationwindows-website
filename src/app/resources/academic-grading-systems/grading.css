@@ -1,0 +1,18 @@
+/* ═══ Grading bands ═══ */
+.gs-bands{
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:var(--paper);margin-bottom:14px;
+}
+.gs-band{display:flex;gap:16px;padding:9px 14px;border-top:1px solid var(--line);font-size:.9rem}
+.gs-band:first-child{border-top:0}
+.gs-g{
+  flex:none;min-width:130px;font-family:ui-monospace,'SF Mono',Menlo,monospace;
+  font-weight:600;color:var(--char);font-size:.86rem;
+}
+.gs-m{color:var(--char-soft);line-height:1.5}
+.gs-caution{background:#FEF9EC;border:1px solid #F0DCA8;border-radius:10px;padding:11px 14px}
+.gs-caution .req-k{color:#8A5B10}
+@media(max-width:600px){
+  .gs-band{flex-direction:column;gap:2px}
+  .gs-g{min-width:0}
+}

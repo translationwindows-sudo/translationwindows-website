@@ -59,6 +59,7 @@ const routes: Entry[] = [
   // A free reference built to be cited by legal practices — the kind of page
   // that earns links rather than needing them bought.
   { path: "/resources/court-translation-requirements", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/resources/academic-grading-systems", priority: 0.9, changeFrequency: "monthly" },
 
   // ── company ──
   { path: "/about", priority: 0.6, changeFrequency: "yearly" },
